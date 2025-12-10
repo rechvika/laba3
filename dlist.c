@@ -100,3 +100,43 @@ void pop_back(DLList* list) { /*удаление элемента из конц�
     free(temp);
     list->size--;
 }
+
+void clear(DLList* list) { /*очистка*/
+    Node* current = list->head;
+    while (current) {
+        Node* next = current->next;
+        free(current);
+        current = next;
+    }
+    
+    list->head = NULL;
+    list->tail = NULL;
+    list->size = 0;
+}
+
+void remove(DLList* list, int index) {  /*удалкение элемента из произвольного метса*/
+    if (index < 0 || index >= list->size) {
+        return;
+    }
+    
+    if (index == 0) {
+        pop_front(list);
+        return;
+    }
+    
+    if (index == list->size - 1) {
+        pop_back(list);
+        return;
+    }
+    
+    Node* current = list->head;
+    for (int i = 0; i < index; i++) {
+        current = current->next;
+    }
+    
+    current->prev->next = current->next;   
+    current->next->prev = current->prev;  
+    
+    free(current);
+    list->size--;
+}
