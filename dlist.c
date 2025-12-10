@@ -64,3 +64,39 @@ void push_back(DLList* list, Publication data) { /*добавление в ко�
     list->tail = new_node;
     list->size++;
 }
+
+void pop_front(DLList* list) { /*удаление элемента из начала*/
+    if (!list->head) {
+        return;
+    }
+    
+    Node* temp = list->head;
+    list->head = list->head->next;
+    
+    if (list->head) {
+        list->head->prev = NULL;
+    } else {
+        list->tail = NULL;
+    }
+    
+    free(temp);
+    list->size--;
+}
+
+void pop_back(DLList* list) { /*удаление элемента из конца*/
+    if (!list->tail) {
+        return;
+    }
+    
+    Node* temp = list->tail;
+    list->tail = list->tail->prev;
+    
+    if (list->tail) {
+        list->tail->next = NULL;
+    } else {
+        list->head = NULL;
+    }
+    
+    free(temp);
+    list->size--;
+}
