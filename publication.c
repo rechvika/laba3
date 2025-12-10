@@ -65,14 +65,16 @@ void publication_print(const Publication* pub) {
     printf("Pages: %d, Citations: %d\n", pub->pages, pub->citations);
 }
 
-int publication_compare_asc(const Publication* pub_1, const Publication* pub_2) {
-    
+int publication_compare_asc(const Publication* pub_1, const Publication* pub_2) {        /*-1 — если str1 < str2 */
 
-    int author_cmp = strcmp(pub_1->author_lastname, pub_2->author_lastname);
-    if (author_cmp != 0) return author_cmp;
+    int author_cmp = strcmp(pub_1->author_lastname, pub_2->author_lastname);           /*0 — если str1 == str2*/
+    if (author_cmp != 0) {
+        return author_cmp;
+    }                                                                                 /*  1 — если str1 > str2*/
     
-    if (pub_1->year != pub_2->year) return pub_1->year - pub_2->year;
-    
+    if (pub_1->year != pub_2->year) {
+        return pub_1->year - pub_2->year;
+    }
 
     return strcmp(pub_1->title, pub_2->title);
 }
