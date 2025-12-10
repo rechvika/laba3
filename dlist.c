@@ -65,6 +65,24 @@ void push_back(DLList* list, Publication data) { /*добавление в ко�
     list->size++;
 }
 
+Node* next(Node* node) { /*получение следующего*/
+    if (node != NULL) {
+        return node->next;
+    } 
+    else {
+        return NULL;
+    }
+}
+
+Node* prev(Node* node) { /*получение предыдущего*/
+    if(node != NULL){
+        return node->prev;
+    }
+    else {
+        return NULL;
+    }
+}
+
 void pop_front(DLList* list) { /*удаление элемента из начала*/
     if (!list->head) {
         return;
@@ -112,6 +130,64 @@ void clear(DLList* list) { /*очистка*/
     list->head = NULL;
     list->tail = NULL;
     list->size = 0;
+}
+
+void insert(DLList* list, int index, Publication data) { /*добавление элемента в любое место*/
+    if (index < 0 || index > list->size) {
+        return;
+    }
+    
+    if (index == 0) {
+        push_front(list, data);
+        return;
+    }
+    
+    if (index == list->size) {
+        push_back(list, data);
+        return;
+    }
+    
+    Node* current = list->head;
+    for (int i = 0; i < index; i++) {
+        current = current->next; 
+    } 
+    
+    Node* new_node = (Node*)malloc(sizeof(Node));
+    new_node->data = data;
+    new_node->prev = current->prev;
+    new_node->next = current;
+    
+    current->prev->next = new_node;
+    current->prev = new_node;
+    
+    list->size++;
+}
+
+
+void swap(DLList* list, int i, int j) {           /*Обмен местами*/
+    if (i < 0 || i >= list->size || j < 0 || j >= list->size || i == j) {
+        return;
+    }
+    
+    if (i > j) {
+        int temp = i;
+        i = j;
+        j = temp;
+    }
+    
+    Node* node_i = list->head;
+    for (int k = 0; k < i; k++) {
+        node_i = node_i->next;
+    }                                              
+    
+    Node* node_j = node_i;
+    for (int k = i; k < j; k++) {
+        node_j = node_j->next;
+    }
+    
+    Publication temp = node_i->data;
+    node_i->data = node_j->data;
+    node_j->data = temp;
 }
 
 void remove(DLList* list, int index) {  /*удалкение элемента из произвольного метса*/
