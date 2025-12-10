@@ -90,7 +90,7 @@ Publication publication_generate_random() {
     strcpy(pub.journal, journals[rand() % 10]);
     pub.year = 2000 + rand() % 25;
     pub.volume = 1 + rand() % 50;
-    pub.is_rinc = rand() % 2;
+    pub.is_rinc = (rand() % 2) == 1;
     pub.pages = 5 + rand() % 50;
     pub.citations = rand() % 1000;
     
