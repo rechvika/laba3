@@ -68,17 +68,17 @@ void publication_print(const Publication* pub) {
 int publication_compare_asc(const Publication* pub_1, const Publication* pub_2) {
     
 
-    int author_cmp = strcmp(pa->author_lastname, pb->author_lastname);
+    int author_cmp = strcmp(pub_1->author_lastname, pub_2->author_lastname);
     if (author_cmp != 0) return author_cmp;
     
-    if (pa->year != pb->year) return pa->year - pb->year;
+    if (pub_1->year != pub_2->year) return pub_1->year - pub_2->year;
     
 
-    return strcmp(pa->title, pb->title);
+    return strcmp(pub_1->title, pub_2->title);
 }
 
 int publication_compare_desc(const Publication* pub_1, const Publication* pub_2) {
-    return -publication_compare_asc(a, b);
+    return -publication_compare_asc(pub_1->title, pub_2->title);
 }
 
 Publication publication_generate_random() {
