@@ -33,23 +33,22 @@ int main(int argc, char* argv[]) {
         }
         
         case MODE_SORT: {
-            // Чтение данных
+  
             read_csv(options.input_file, &list);
             
-            // Выбор компаратора
+
             Comparator cmp = (options.sort_type == SORT_ASC) ? 
                             publication_compare_asc : publication_compare_desc;
             
-            // Сортировка
+
             comb_sort(&list, cmp);
-            
-            // Запись результата
+
             write_csv(options.output_file, &list);
             break;
         }
         
         case MODE_PRINT: {
-            // В режиме print, если input_file не указан, читаем имя файла из stdin
+
             if (!options.input_file) {
                 char filename[256];
                 printf("Enter input filename: ");
@@ -59,10 +58,10 @@ int main(int argc, char* argv[]) {
                 }
             }
             
-            // Чтение данных
+
             read_csv(options.input_file, &list);
             
-            // Вывод таблицы
+
             print_table(options.output_file, &list);
             
             if (!options.input_file) {
