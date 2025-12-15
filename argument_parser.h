@@ -3,7 +3,7 @@
 
 #include "io_operators.h"
 
-typedef struct {
+typedef struct { 
     ProgramMode mode;
     SortType sort_type;
     char* input_file;

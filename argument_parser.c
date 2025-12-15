@@ -11,7 +11,7 @@ ProgramOptions parse_arguments(int argc, char* argv[]) {
     options.output_file = NULL;
     options.generate_count = 0;
     
-    for (int i = 1; i < argc; i++) {
+    for (int i = 1; i < argc; i++) { /*узнаем от пользователя, что ему нужно сделать*/
         if (strcmp(argv[i], "--generate") == 0 || strcmp(argv[i], "-g") == 0) {
             options.mode = MODE_GENERATE;
             if (i + 1 < argc) {

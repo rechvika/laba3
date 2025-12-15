@@ -190,6 +190,23 @@ void swap(DLList* list, int i, int j) {           /*Обмен местами*/
     node_j->data = temp;
 }
 
+void dllist_from_array(DLList* list, Publication* array, int size) {
+    clear(list);
+    for (int i = 0; i < size; i++) {
+        push_back(list, array[i]);
+    }
+}                                         
+
+Publication* dllist_to_array(DLList* list) {
+    Publication* array = (Publication*)malloc(list->size * sizeof(Publication));
+    Node* current = list->head;
+    for (int i = 0; i < list->size; i++) {
+        array[i] = current->data;
+        current = current->next;
+    }
+    return array;
+}
+
 void dllist_remove(DLList* list, int index) {  /*удалкение элемента из произвольного метса*/
     if (index < 0 || index >= list->size) {
         return;

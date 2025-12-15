@@ -2,6 +2,7 @@
 #define COMB_SORT_H
 
 #include "dlist.h"
+#include "publication.h"
 
 typedef int (*Comparator)(const void*, const void*);
 

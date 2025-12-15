@@ -65,6 +65,7 @@ void publication_print(const Publication* pub) {
     printf("Pages: %d, Citations: %d\n", pub->pages, pub->citations);
 }
 
+/*компаратор для сравнения по названиям*/
 int publication_compare_asc(const Publication* pub_1, const Publication* pub_2) {        /*-1 — если str1 < str2 */
 
     int author_cmp = strcmp(pub_1->author_lastname, pub_2->author_lastname);           /*0 — если str1 == str2*/
