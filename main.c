@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <locale.h>
 #include "argument_parser.h"
 #include "publication.h"
 #include "dlist.h"
@@ -9,6 +10,8 @@
 #include "io_operators.h"
 
 int main(int argc, char* argv[]) {
+
+    setlocale(LC_ALL, "ru_RU.UTF-8");
     srand(time(NULL));
     
     ProgramOptions options = parse_arguments(argc, argv);
@@ -33,16 +36,16 @@ int main(int argc, char* argv[]) {
         }
         
         case MODE_SORT: {
-  
             read_csv(options.input_file, &list);
             
-
-            Comparator cmp = (options.sort_type == SORT_ASC) ? 
-                            publication_compare_asc : publication_compare_desc;
+            Comparator cmp;
+            if (options.sort_type == SORT_ASC) {
+                cmp = (Comparator)publication_compare_asc;
+            } else {
+                cmp = publication_compare_desc; 
+            }
             
-
             comb_sort(&list, cmp);
-
             write_csv(options.output_file, &list);
             break;
         }

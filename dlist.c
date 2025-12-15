@@ -2,7 +2,7 @@
 #include <string.h>
 #include "dlist.h"
 
-void init(DLList* list) { /*начальные данные(когда двусвязный список пуст)*/
+void dllist_init(DLList* list) { /*начальные данные(когда двусвязный список пуст)*/
     list->head = NULL;
     list->tail = NULL;
     list->size = 0;
@@ -13,16 +13,16 @@ int size(DLList* list) {  /*получение размера*/
 }
 
 Publication* get(DLList* list, int index) { /*получение элемента по индексу*/
-    if (index < 0 || index >= list->size) {
+    if (list == NULL || index < 0 || index >= list->size) {
         return NULL;
     }
-
-    Node* current = list->head;
-    for (int i = 0; i < index; i++) {
-        current = current->next;
+    else {
+        Node* current = list->head;
+        for (int i = 0; i < index; i++) {
+            current = current->next;
+        }
+        return current->data;
     }
-
-    return *(current->data);
 }
 
 Node* begin(DLList* list) { /*получение первого элемента*/
@@ -49,7 +49,7 @@ void push_front(DLList* list, Publication data) {  /*добавление в н�
     list->size++;
 }
 
-void push_back(DLList* list, Publication data) { /*добавление в конец*/
+void dllist_push_back(DLList* list, Publication data) { /*добавление в конец*/
     Node* new_node = (Node*)malloc(sizeof(Node));
     new_node->data = data;
     new_node->next = NULL;
@@ -119,7 +119,7 @@ void pop_back(DLList* list) { /*удаление элемента из конц�
     list->size--;
 }
 
-void clear(DLList* list) { /*очистка*/
+void dllist_clear(DLList* list) { /*очистка*/
     Node* current = list->head;
     while (current) {
         Node* next = current->next;
@@ -190,7 +190,7 @@ void swap(DLList* list, int i, int j) {           /*Обмен местами*/
     node_j->data = temp;
 }
 
-void remove(DLList* list, int index) {  /*удалкение элемента из произвольного метса*/
+void dllist_remove(DLList* list, int index) {  /*удалкение элемента из произвольного метса*/
     if (index < 0 || index >= list->size) {
         return;
     }

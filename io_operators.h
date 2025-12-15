@@ -1,7 +1,7 @@
 #ifndef IO_OPERATIONS_H
 #define IO_OPERATIONS_H
 
-#include "dllist.h"
+#include "dlist.h"
 
 typedef enum {
     MODE_GENERATE,
