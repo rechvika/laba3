@@ -7,7 +7,8 @@ main.c\
 io_operators.c\
 dlist.c\
 comb_sort.c\
-argument_parser.c
+argument_parser.c\
+merge_sort.с
 
 OBJS = $(SRCS:.c=.o)
 
@@ -15,7 +16,8 @@ HEADER = publication.h\
 io_operators.h\
 dlist.h\
 comb_sort.h\
-argument_parser.h
+argument_parser.h\
+merge_sort.h
 
 all: $(TARGET)
 
