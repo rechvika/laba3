@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
-#include "dllist.h"
+#include "dlist.h"
 
 void init(DLList* list) { /*начальные данные(когда двусвязный список пуст)*/
     list->head = NULL;

@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include "args_parser.h"
+#include "argument_parser.h"
 #include "publication.h"
-#include "dllist.h"
+#include "dlist.h"
 #include "comb_sort.h"
 #include "io_operators.h"
 
