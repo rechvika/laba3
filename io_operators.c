@@ -3,7 +3,7 @@
 #include <string.h>
 #include "io_operators.h"
 
-void write_csv(const char* filename, DLList* list) {
+void write_csv(const char* filename, DLList* list) { /*запись в файл*/
     FILE* fp;
     
     if (filename) {
@@ -39,7 +39,7 @@ void write_csv(const char* filename, DLList* list) {
     }
 }
 
-void read_csv(const char* filename, DLList* list) {
+void read_csv(const char* filename, DLList* list) { /*чтение из файла*/
     FILE* fp;
     
     if (filename) {
@@ -63,7 +63,7 @@ void read_csv(const char* filename, DLList* list) {
     }
     
 
-    while (fgets(line, sizeof(line), fp)) {
+    while (fgets(line, sizeof(line), fp)) { 
         Publication pub;
         
 
@@ -125,7 +125,7 @@ void read_csv(const char* filename, DLList* list) {
     }
 }
 
-void print_table(const char* filename, DLList* list) {
+void print_table(const char* filename, DLList* list) { /*генерация таблицы*/
     FILE* fp;
     
     if (filename) {
