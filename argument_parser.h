@@ -1,6 +1,10 @@
 #ifndef ARGUMENT_PARSER_H
 #define ARGUMENT_PARSER_H
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 #include "io_operators.h"
 
 typedef struct { 

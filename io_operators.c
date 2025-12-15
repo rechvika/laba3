@@ -1,6 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "io_operators.h"
 
 void write_csv(const char* filename, DLList* list) { /*запись в файл*/

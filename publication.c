@@ -1,7 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
 #include "publication.h"
 
 
@@ -81,21 +77,23 @@ int publication_compare_asc(const Publication* pub_1, const Publication* pub_2) 
 }
 
 int publication_compare_desc(const Publication* pub_1, const Publication* pub_2) {
-    return -publication_compare_asc(pub_1->title, pub_2->title);
+    return -publication_compare_asc(pub_1, pub_2);
 }
 
-Publication publication_generate_random() {
-    Publication pub;
+Publication* publication_generate_random(Publication* pub) {
+    if (pub == NULL){
+        return NULL;
+    }
 
-    strcpy(pub.title, titles[rand() % 10]);
-    strcpy(pub.author_lastname, lastnames[rand() % 10]);
-    strcpy(pub.author_initials, initials[rand() % 10]);
-    strcpy(pub.journal, journals[rand() % 10]);
-    pub.year = 2000 + rand() % 25;
-    pub.volume = 1 + rand() % 50;
-    pub.is_rinc = (rand() % 2) == 1;
-    pub.pages = 5 + rand() % 50;
-    pub.citations = rand() % 1000;
+    strcpy(pub->title, titles[rand() % 10]);  /*!указатели*/
+    strcpy(pub->author_lastname, lastnames[rand() % 10]);
+    strcpy(pub->author_initials, initials[rand() % 10]);
+    strcpy(pub->journal, journals[rand() % 10]);
+    pub->year = 2000 + rand() % 25;
+    pub->volume = 1 + rand() % 50;
+    pub->is_rinc = (rand() % 2) == 1;
+    pub->pages = 5 + rand() % 50;
+    pub->citations = rand() % 1000;
     
     return pub;
 }

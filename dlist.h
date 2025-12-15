@@ -1,6 +1,8 @@
 #ifndef DLLIST_H
 #define DLLIST_H
 
+#include <stdlib.h>
+#include <string.h>
 #include "publication.h"
 
 typedef struct Node {
@@ -20,7 +22,7 @@ int size(DLList* list);
 Publication* get(DLList* list, int index);
 Node* begin(DLList* list);
 Node* end(DLList* list);
-void push_front(DLList* list, Publication data);
+void dllist_push_front(DLList* list, Publication data);
 void dllist_push_back(DLList* list, Publication data);
 Node* next(Node* node);
 Node* prev(Node* node);
@@ -30,6 +32,8 @@ void dllist_clear(DLList* list);
 void insert(DLList* list, int index, Publication data);
 void swap(DLList* list, int i, int j);
 void dllist_remove(DLList* list, int index);
+void dllist_from_array(DLList* list, Publication* array, int size);
+Publication* dllist_to_array(DLList* list);
 
 
 #endif

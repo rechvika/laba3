@@ -1,5 +1,3 @@
-#include <stdlib.h>
-#include <string.h>
 #include "dlist.h"
 
 void dllist_init(DLList* list) { /*начальные данные(когда двусвязный список пуст)*/
@@ -21,7 +19,7 @@ Publication* get(DLList* list, int index) { /*получение элемент�
         for (int i = 0; i < index; i++) {
             current = current->next;
         }
-        return current->data;
+        return &(current->data);
     }
 }
 
@@ -33,7 +31,7 @@ Node* end(DLList* list) { /*получение последнего элемен
     return list->tail;
 }
 
-void push_front(DLList* list, Publication data) {  /*добавление в начало*/
+void dllist_push_front(DLList* list, Publication data) {  /*добавление в начало*/
     Node* new_node = (Node*)malloc(sizeof(Node));
     new_node->data = data;
     new_node->prev = NULL;
@@ -138,12 +136,12 @@ void insert(DLList* list, int index, Publication data) { /*добавление 
     }
     
     if (index == 0) {
-        push_front(list, data);
+        dllist_push_front(list, data);
         return;
     }
     
     if (index == list->size) {
-        push_back(list, data);
+        dllist_push_back(list, data);
         return;
     }
     
@@ -191,9 +189,9 @@ void swap(DLList* list, int i, int j) {           /*Обмен местами*/
 }
 
 void dllist_from_array(DLList* list, Publication* array, int size) {
-    clear(list);
+    dllist_clear(list);
     for (int i = 0; i < size; i++) {
-        push_back(list, array[i]);
+        dllist_push_back(list, array[i]);
     }
 }                                         
 

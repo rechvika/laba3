@@ -1,6 +1,6 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -std=c90 -pedantic
-TARGET = publication_sort
+CFLAGS = -Wall -Wextra -std=c99 -pedantic
+TARGET = publication_sort.exe
 
 SRCS = publication.c\
 main.c\

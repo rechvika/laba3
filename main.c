@@ -26,23 +26,24 @@ int main(int argc, char* argv[]) {
     
     switch (options.mode) {
         case MODE_GENERATE: {
+            Publication pub;
             for (int i = 0; i < options.generate_count; i++) {
-                Publication pub = publication_generate_random();
+                publication_generate_random(&pub);
                 dllist_push_back(&list, pub);
             }
             
-            write_csv(options.output_file, &list);
-            break;
+            write_csv(options.output_file, &list); /*записываем в файл*/
+            break; /*выходи из case*/
         }
         
         case MODE_SORT: {
-            read_csv(options.input_file, &list);
+            read_csv(options.input_file, &list); /*прочитай из файла*/
             
             Comparator cmp;
-            if (options.sort_type == SORT_ASC) {
-                cmp = (Comparator)publication_compare_asc;
+            if (options.sort_type == SORT_DESC) {
+                cmp = (int (*)(const void*, const void*))publication_compare_desc;
             } else {
-                cmp = publication_compare_desc; 
+                cmp = (int (*)(const void*, const void*))publication_compare_asc;
             }
             
             comb_sort(&list, cmp);
@@ -56,7 +57,7 @@ int main(int argc, char* argv[]) {
                 char filename[256];
                 printf("Enter input filename: ");
                 if (fgets(filename, sizeof(filename), stdin)) {
-                    filename[strcspn(filename, "\n")] = 0;
+                    filename[strcspn(filename, "\n")] = 0; /*удали энтер*/
                     options.input_file = strdup(filename);
                 }
             }

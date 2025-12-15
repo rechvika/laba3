@@ -1,4 +1,3 @@
-#include <math.h>
 #include "comb_sort.h"
 
 void comb_sort(DLList* list, Comparator cmp) {
@@ -14,11 +13,11 @@ void comb_sort(DLList* list, Comparator cmp) {
         }
         
         for (int i = 0; i + gap < list->size; i++) {
-            Publication* a = dllist_get(list, i);
-            Publication* b = dllist_get(list, i + gap);
+            Publication* a = get(list, i);
+            Publication* b = get(list, i + gap);
             
             if (cmp(a, b) > 0) {
-                dllist_swap(list, i, i + gap);
+                swap(list, i, i + gap);
                 sorted = 0;
             }
         }

@@ -3,6 +3,7 @@
 
 #include "dlist.h"
 #include "publication.h"
+#include <math.h>
 
 typedef int (*Comparator)(const void*, const void*);
 
