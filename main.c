@@ -6,7 +6,7 @@
 #include "publication.h"
 #include "dllist.h"
 #include "comb_sort.h"
-#include "io_operations.h"
+#include "io_operators.h"
 
 int main(int argc, char* argv[]) {
     srand(time(NULL));

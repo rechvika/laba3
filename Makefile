@@ -4,7 +4,7 @@ TARGET = publication_sort
 
 SRCS = publication.c\
 main.c\
-io_operations.c\
+io_operators.c\
 dllist.c\
 comb_sort.c\
 argument_parser.c
@@ -12,7 +12,7 @@ argument_parser.c
 OBJS = $(SRCS:.c=.o)
 
 HEADER = publication.h\
-io_operations.h\
+io_operators.h\
 dllist.h\
 comb_sort.h\
 argument_parser.h
