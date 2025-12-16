@@ -11,7 +11,6 @@ Node* split(Node* head) { /*деление строки пополам*/
     return slow;
 }
 
-
 Node* merge(Node* left, Node* right) { /*функция слияния*/
     
     if (left == NULL) return right;

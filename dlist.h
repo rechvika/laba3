@@ -34,6 +34,6 @@ void swap(DLList* list, int i, int j);
 void dllist_remove(DLList* list, int index);
 void dllist_from_array(DLList* list, Publication* array, int size);
 Publication* dllist_to_array(DLList* list);
-
+Node* createNode(Publication data);
 
 #endif

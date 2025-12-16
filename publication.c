@@ -1,6 +1,5 @@
 #include "publication.h"
 
-
 static const char* titles[] = {
     "Research on Algorithms",
     "cones in captivity",
@@ -52,7 +51,7 @@ static const char* journals[] = {
     "fox"
 };
 
-void publication_print(const Publication* pub) {
+void publication_print(const Publication* pub) { /*вывод публикации*/
     printf("Title: %s\n", pub->title);
     printf("Author: %s %s\n", pub->author_lastname, pub->author_initials);
     printf("Journal: %s\n", pub->journal);
@@ -61,7 +60,7 @@ void publication_print(const Publication* pub) {
     printf("Pages: %d, Citations: %d\n", pub->pages, pub->citations);
 }
 
-/*компаратор для сравнения по названиям*/
+/*компаратор для сравнения по фамилиям, году*/
 int publication_compare_asc(const Publication* pub_1, const Publication* pub_2) {        /*-1 — если str1 < str2 */
 
     int author_cmp = strcmp(pub_1->author_lastname, pub_2->author_lastname);           /*0 — если str1 == str2*/
@@ -76,11 +75,11 @@ int publication_compare_asc(const Publication* pub_1, const Publication* pub_2) 
     return strcmp(pub_1->title, pub_2->title);
 }
 
-int publication_compare_desc(const Publication* pub_1, const Publication* pub_2) {
+int publication_compare_desc(const Publication* pub_1, const Publication* pub_2) { /*если нужно отсортировать в обратном порядке*/
     return -publication_compare_asc(pub_1, pub_2);
 }
 
-Publication* publication_generate_random(Publication* pub) {
+Publication* publication_generate_random(Publication* pub) { /*генерация рандмной публикации*/
     if (pub == NULL){
         return NULL;
     }

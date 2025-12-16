@@ -8,6 +8,7 @@
 #include "dlist.h"
 #include "comb_sort.h"
 #include "io_operators.h"
+#include "merge_sort.h"
 
 int main(int argc, char* argv[]) {
 
@@ -41,12 +42,21 @@ int main(int argc, char* argv[]) {
             
             Comparator cmp;
             if (options.sort_type == SORT_DESC) {
-                cmp = (int (*)(const void*, const void*))publication_compare_desc;
+                cmp = (int (*)(const void*, const void*))publication_compare_desc; /*указатель на функцию сортировки с учетом входных данных*/
             } else {
                 cmp = (int (*)(const void*, const void*))publication_compare_asc;
             }
             
             comb_sort(&list, cmp);
+            write_csv(options.output_file, &list);
+            break;
+        }
+
+        case MODE_SORT_MERGE: {
+            read_csv(options.input_file, &list); /*прочитай из файла*/
+            
+            mergeSort(list.head);
+
             write_csv(options.output_file, &list);
             break;
         }
@@ -61,10 +71,8 @@ int main(int argc, char* argv[]) {
                     options.input_file = strdup(filename);
                 }
             }
-            
-
+        
             read_csv(options.input_file, &list);
-            
 
             print_table(options.output_file, &list);
             

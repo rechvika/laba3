@@ -161,7 +161,6 @@ void insert(DLList* list, int index, Publication data) { /*добавление 
     list->size++;
 }
 
-
 void swap(DLList* list, int i, int j) {           /*Обмен местами*/
     if (i < 0 || i >= list->size || j < 0 || j >= list->size || i == j) {
         return;
@@ -188,14 +187,14 @@ void swap(DLList* list, int i, int j) {           /*Обмен местами*/
     node_j->data = temp;
 }
 
-void dllist_from_array(DLList* list, Publication* array, int size) {
+void dllist_from_array(DLList* list, Publication* array, int size) { /*из массива в список*/
     dllist_clear(list);
     for (int i = 0; i < size; i++) {
         dllist_push_back(list, array[i]);
     }
 }                                         
 
-Publication* dllist_to_array(DLList* list) {
+Publication* dllist_to_array(DLList* list) {/*из списка в массив*/
     Publication* array = (Publication*)malloc(list->size * sizeof(Publication));
     Node* current = list->head;
     for (int i = 0; i < list->size; i++) {
@@ -234,11 +233,11 @@ void dllist_remove(DLList* list, int index) {  /*удалкение элемен
 
 /*для сортировки слиянием*/
 
-/*Создание нового узла (с возвращением его)*/
-Node* createNode(int data) {
+/*Создание нового узла*/
+Node* createNode(Publication data) {
     Node* newNode = (Node*)malloc(sizeof(Node));
     if (!newNode) {
-        printf("Ошибка выделения памяти!\n");
+        printf("Memory allocation error!\n");
         exit(1);
     }
     newNode->data = data;
@@ -246,3 +245,5 @@ Node* createNode(int data) {
     newNode->next = NULL;
     return newNode;
 }
+
+

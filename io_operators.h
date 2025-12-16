@@ -7,19 +7,18 @@
 
 #include "dlist.h"
 
-typedef enum {
+typedef enum { 
     MODE_GENERATE,
     MODE_SORT,
+    MODE_SORT_MERGE,
     MODE_PRINT,
     MODE_UNKNOWN
 } ProgramMode;
-
 
 typedef enum {
     SORT_ASC,
     SORT_DESC
 } SortType;
-
 
 void write_csv(const char* filename, DLList* list);
 void read_csv(const char* filename, DLList* list);

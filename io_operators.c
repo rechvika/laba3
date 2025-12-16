@@ -15,7 +15,6 @@ void write_csv(const char* filename, DLList* list) { /*запись в файл*
     
     fprintf(fp, "title,author_lastname,author_initials,journal,year,volume,is_rinc,pages,citations\n");
     
-
     Node* current = list->head;
     while (current != NULL) {
         fprintf(fp, "\"%s\",\"%s\",\"%s\",\"%s\",%d,%d,%s,%d,%d\n", 
@@ -41,7 +40,7 @@ void read_csv(const char* filename, DLList* list) { /*чтение из файл
     
     if (filename) {
         fp = fopen(filename, "r");
-        if (fp) {
+        if (!fp) {
             printf("Error opening file for reading: %s\n", filename);
             return;
         }
@@ -51,7 +50,6 @@ void read_csv(const char* filename, DLList* list) { /*чтение из файл
     
     char line[1024];
     
-
     if (!fgets(line, sizeof(line), fp)) {
         if (filename) {
             fclose(fp);
@@ -59,24 +57,21 @@ void read_csv(const char* filename, DLList* list) { /*чтение из файл
         return;
     }
     
-
-    while (fgets(line, sizeof(line), fp)) { 
+    while (fgets(line, sizeof(line), fp)) { /*читаем из файла и в двусвяззный список*/
         Publication pub;
         
-
-        line[strcspn(line, "\n")] = 0;
+        line[strcspn(line, "\n")] = 0; /*находит позицию \n в строке*/
         
-
-        char* token = strtok(line, ",");
+        char* token = strtok(line, ","); /*один токен - то, что между запятыми*/
         if (!token){ 
             continue;
         } 
 
-        if (token[0] == '"') { 
+        if (token[0] == '"') {  /*убираем лишнюю чепуху*/
             memmove(token, token + 1, strlen(token)); 
             token[strlen(token) - 1] = 0;
         }
-        strncpy(pub.title, token, MAX_STRING_LENGTH - 1);
+        strncpy(pub.title, token, MAX_STRING_LENGTH - 1); /*записываем в структуру*/
         
         token = strtok(NULL, ",");
         if (token[0] == '"') {
@@ -100,7 +95,7 @@ void read_csv(const char* filename, DLList* list) { /*чтение из файл
         strncpy(pub.journal, token, MAX_STRING_LENGTH - 1);
         
         token = strtok(NULL, ",");
-        pub.year = atoi(token);
+        pub.year = atoi(token); /*строку в целое число*/
         
         token = strtok(NULL, ",");
         pub.volume = atoi(token);
@@ -135,13 +130,11 @@ void print_table(const char* filename, DLList* list) { /*генерация та
         fp = stdout;
     }
     
-
     fprintf(fp, "┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐\n");
     fprintf(fp, "│ %-30s │ %-15s │ %-10s │ %-25s │ Year │ Vol │ RINC │ Pages │ Cit │\n", 
             "Title", "Author", "Initials", "Journal");
     fprintf(fp, "├─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤\n");
     
-
     Node* current = list->head;
     while (current) {
         fprintf(fp, "│ %-30.30s │ %-15.15s │ %-10.10s │ %-25.25s │ %4d │ %3d │ %4s │ %5d │ %3d │\n",
