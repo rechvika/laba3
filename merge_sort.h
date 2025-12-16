@@ -9,6 +9,5 @@
 Node* split(Node* head);
 Node* merge(Node* left, Node* right);
 Node* mergeSort(Node* head);
-void freeList(Node* head);
 
 #endif

@@ -68,13 +68,3 @@ void sortList(Node** headRef, Node** tailRef) {
     }
 }
 
-void freeList(Node* head) { /*освобождение памяти*/
-    Node* current = head;
-    Node* next;
-    
-    while (current != NULL) {
-        next = current->next;
-        free(current);
-        current = next;
-    }
-}
