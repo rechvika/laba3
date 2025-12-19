@@ -5,35 +5,35 @@
 #include <string.h>
 #include "publication.h"
 
-typedef struct Node {
-    Publication data;
-    struct Node* prev;
-    struct Node* next;
-} Node;
+typedef struct  {
+    publication* data;  
+    struct node* prev;
+    struct node* next;
+} node;
 
 typedef struct {
-    Node* head;
-    Node* tail;
+    node* head;
+    node* tail;
     int size;
-} DLList;
+} dllist;
 
-void dllist_init(DLList* list);
-int size(DLList* list);
-Publication* get(DLList* list, int index);
-Node* begin(DLList* list);
-Node* end(DLList* list);
-void dllist_push_front(DLList* list, Publication data);
-void dllist_push_back(DLList* list, Publication data);
-Node* next(Node* node);
-Node* prev(Node* node);
-void pop_front(DLList* list);
-void pop_back(DLList* list);
-void dllist_clear(DLList* list);
-void insert(DLList* list, int index, Publication data);
-void swap(DLList* list, int i, int j);
-void dllist_remove(DLList* list, int index);
-void dllist_from_array(DLList* list, Publication* array, int size);
-Publication* dllist_to_array(DLList* list);
-Node* createNode(Publication data);
+void dllist_init(dllist* list);
+int size(dllist* list);
+publication* get(dllist* list, unsigned int index);
+node* begin(dllist* list);
+node* end(dllist* list);
+void dllist_push_front(dllist* list, publication* data); 
+void dllist_push_back(dllist* list, publication* data);
+node* next(node* node);
+node* prev(node* node);
+void pop_front(dllist* list);
+void pop_back(dllist* list);
+void dllist_clear(dllist* list);
+void insert(dllist* list, unsigned int index, publication* data);
+void swap(dllist* list, unsigned int i, unsigned int j);
+void dllist_remove(dllist* list, unsigned int index);
+void dllist_from_array(dllist* list, publication* array, unsigned int size);
+publication* dllist_to_array(dllist* list);
+node* createnode(publication* data);
 
 #endif

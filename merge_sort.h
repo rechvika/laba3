@@ -6,8 +6,8 @@
 
 #include "dlist.h"
 
-Node* split(Node* head);
-Node* merge(Node* left, Node* right);
-Node* mergeSort(Node* head);
+node* split(node* head);
+node* merge(node* left, node* right);
+node* mergeSort(node* head);
 
 #endif

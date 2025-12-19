@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h>
-#include <locale.h>
+#include <time.h> /*линие файлы*/
+#include <locale.h> /*проверка на переполнение*/
 #include "argument_parser.h"
 #include "publication.h"
 #include "dlist.h"
@@ -15,34 +15,34 @@ int main(int argc, char* argv[]) {
     setlocale(LC_ALL, "ru_RU.UTF-8");
     srand(time(NULL));
     
-    ProgramOptions options = parse_arguments(argc, argv);
+    programoptions options = parse_arguments(argc, argv);
     
     if (options.mode == MODE_UNKNOWN) {
         print_help();
         return 1;
     }
     
-    DLList list;
+    dllist list;
     dllist_init(&list);
     
     switch (options.mode) {
         case MODE_GENERATE: {
-            Publication pub;
-            for (int i = 0; i < options.generate_count; i++) {
-                publication_generate_random(&pub);
+            publication* pub;
+            for (unsigned int i = 0; i < options.generate_count; i++) {
+                publication_generate_random(pub);
                 dllist_push_back(&list, pub);
             }
             
-            write_csv(options.output_file, &list); /*записываем в файл*/
-            break; /*выходи из case*/
+            write_csv(options.output_file, &list); 
+            break; 
         }
         
         case MODE_SORT: {
-            read_csv(options.input_file, &list); /*прочитай из файла*/
+            read_csv(options.input_file, &list); 
             
-            Comparator cmp;
+            comparator cmp;
             if (options.sort_type == SORT_DESC) {
-                cmp = (int (*)(const void*, const void*))publication_compare_desc; /*указатель на функцию сортировки с учетом входных данных*/
+                cmp = (int (*)(const void*, const void*))publication_compare_desc; 
             } else {
                 cmp = (int (*)(const void*, const void*))publication_compare_asc;
             }
@@ -53,7 +53,7 @@ int main(int argc, char* argv[]) {
         }
 
         case MODE_SORT_MERGE: {
-            read_csv(options.input_file, &list); /*прочитай из файла*/
+            read_csv(options.input_file, &list); 
             
             mergeSort(list.head);
 
@@ -67,7 +67,7 @@ int main(int argc, char* argv[]) {
                 char filename[256];
                 printf("Enter input filename: ");
                 if (fgets(filename, sizeof(filename), stdin)) {
-                    filename[strcspn(filename, "\n")] = 0; /*удали энтер*/
+                    filename[strcspn(filename, "\n")] = 0; 
                     options.input_file = strdup(filename);
                 }
             }

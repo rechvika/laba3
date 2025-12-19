@@ -13,15 +13,15 @@ typedef enum {
     MODE_SORT_MERGE,
     MODE_PRINT,
     MODE_UNKNOWN
-} ProgramMode;
+} programMode;
 
 typedef enum {
     SORT_ASC,
     SORT_DESC
-} SortType;
+} sort__type;
 
-void write_csv(const char* filename, DLList* list);
-void read_csv(const char* filename, DLList* list);
-void print_table(const char* filename, DLList* list);
+void write_csv(const char* filename, dllist* list);
+void read_csv(const char* filename, dllist* list);
+void print_table(const char* filename, dllist* list);
 
 #endif

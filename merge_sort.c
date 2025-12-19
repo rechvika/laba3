@@ -1,8 +1,8 @@
-#include <merge_sort.h>
+#include "merge_sort.h"
 
-Node* split(Node* head) { /*деление строки пополам*/
-    Node* slow = head;
-    Node* fast = head->next;
+node* split(node* head) {
+    node* slow = head;
+    node* fast = head->next;
 
     while (fast != NULL && fast->next != NULL) {
         slow = slow->next;
@@ -11,23 +11,23 @@ Node* split(Node* head) { /*деление строки пополам*/
     return slow;
 }
 
-Node* merge(Node* left, Node* right) { /*функция слияния*/
+node* merge(node* left, node* right) { 
     
-    if (left == NULL) return right;
-    if (right == NULL) return left;
+    if (!left) return right;
+    if (!right) return left;
     
-    Node* result = NULL;
+    node* result = NULL;
     
     if (left->data <= right->data) {
         result = left;
         result->next = merge(left->next, right);  
-        if (result->next != NULL) {
+        if (!result->next) {
             result->next->prev = result;
         }
     } else {
         result = right;
         result->next = merge(left, right->next);
-        if (result->next != NULL) {
+        if (!result->next) {
             result->next->prev = result;
         }
     }
@@ -36,26 +36,26 @@ Node* merge(Node* left, Node* right) { /*функция слияния*/
     return result;
 }
 
-Node* mergeSort(Node* head) { /*сортировка слиянием*/
+node* mergeSort(node* head) { 
     if (head == NULL || head->next == NULL) {
         return head;
     }
     
-    Node* middle = split(head);
-    Node* nextToMiddle = middle->next;
+    node* middle = split(head);
+    node* nextToMiddle = middle->next;
     
     middle->next = NULL;
     if (nextToMiddle != NULL) {
         nextToMiddle->prev = NULL;
     }
     
-    Node* left = mergeSort(head);
-    Node* right = mergeSort(nextToMiddle);
+    node* left = mergeSort(head);
+    node* right = mergeSort(nextToMiddle);
     
     return merge(left, right);
 }
 
-void sortList(Node** headRef, Node** tailRef) {
+void sortList(node** headRef, node** tailRef) {
     if (*headRef == NULL) return;
     
     *headRef = mergeSort(*headRef);

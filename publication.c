@@ -51,7 +51,7 @@ static const char* journals[] = {
     "fox"
 };
 
-void publication_print(const Publication* pub) { /*вывод публикации*/
+void publication_print(const publication* pub) { 
     printf("Title: %s\n", pub->title);
     printf("Author: %s %s\n", pub->author_lastname, pub->author_initials);
     printf("Journal: %s\n", pub->journal);
@@ -60,13 +60,12 @@ void publication_print(const Publication* pub) { /*вывод публикаци
     printf("Pages: %d, Citations: %d\n", pub->pages, pub->citations);
 }
 
-/*компаратор для сравнения по фамилиям, году*/
-int publication_compare_asc(const Publication* pub_1, const Publication* pub_2) {        /*-1 — если str1 < str2 */
+int publication_compare_asc(const publication* pub_1, const publication* pub_2) {        
 
-    int author_cmp = strcmp(pub_1->author_lastname, pub_2->author_lastname);           /*0 — если str1 == str2*/
+    int author_cmp = strcmp(pub_1->author_lastname, pub_2->author_lastname);           
     if (author_cmp != 0) {
         return author_cmp;
-    }                                                                                 /*  1 — если str1 > str2*/
+    }                                                                                 
     
     if (pub_1->year != pub_2->year) {
         return pub_1->year - pub_2->year;
@@ -75,15 +74,11 @@ int publication_compare_asc(const Publication* pub_1, const Publication* pub_2) 
     return strcmp(pub_1->title, pub_2->title);
 }
 
-int publication_compare_desc(const Publication* pub_1, const Publication* pub_2) { /*если нужно отсортировать в обратном порядке*/
+int publication_compare_desc(const publication* pub_1, const publication* pub_2) { 
     return -publication_compare_asc(pub_1, pub_2);
 }
 
-Publication* publication_generate_random(Publication* pub) { /*генерация рандмной публикации*/
-    if (pub == NULL){
-        return NULL;
-    }
-
+publication* publication_generate_random(publication* pub) { 
     strcpy(pub->title, titles[rand() % 10]);  /*!указатели*/
     strcpy(pub->author_lastname, lastnames[rand() % 10]);
     strcpy(pub->author_initials, initials[rand() % 10]);

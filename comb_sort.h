@@ -5,8 +5,8 @@
 #include "publication.h"
 #include <math.h>
 
-typedef int (*Comparator)(const void*, const void*);
+typedef int (*comparator)(const void*, const void*);
 
-void comb_sort(DLList* list, Comparator cmp);
+void comb_sort(dllist* list, comparator cmp);
 
 #endif

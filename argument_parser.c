@@ -1,14 +1,14 @@
 #include "argument_parser.h"
 
-ProgramOptions parse_arguments(int argc, char* argv[]) { /*инициализация по умолчанию*/
-    ProgramOptions options;
+programOptions parse_arguments(unsigned int argc, char* argv[]) {
+    programOptions options;
     options.mode = MODE_UNKNOWN;
     options.sort_type = SORT_ASC;
     options.input_file = NULL;
     options.output_file = NULL;
     options.generate_count = 0;
     
-    for (int i = 1; i < argc; i++) { /*узнаем от пользователя, что ему нужно сделать*/
+    for (unsigned int i = 1; i < argc; i++) { 
         if (strcmp(argv[i], "--generate") == 0 || strcmp(argv[i], "-g") == 0) {
             options.mode = MODE_GENERATE;
             if (i + 1 < argc) {
@@ -57,7 +57,7 @@ void print_help() {
     printf("  --in=FILE, -i FILE    Input file (CSV for sort, filename for print)\n");
     printf("  --out=FILE, -o FILE   Output file\n");
     printf("\nSort options:\n");
-    printf("  --type=asc, -t A      Sort ascending (default)\n");
+    printf("  --type=asc, -t A      Sort ascending (default)\n"); /*английский на русский*/
     printf("  --type=desc, -t D     Sort descending\n");
     printf("\nOther:\n");
     printf("  --help, -h            Show this help message\n");

@@ -8,14 +8,14 @@
 #include "io_operators.h"
 
 typedef struct { 
-    ProgramMode mode;
-    SortType sort_type;
+    programMode mode;
+    sort__type sort_type;
     char* input_file;
     char* output_file;
     int generate_count;
-} ProgramOptions;
+} programoptions;
 
-ProgramOptions parse_arguments(int argc, char* argv[]);
+programoptions parse_arguments(unsigned int argc, char* argv[]);
 void print_help();
 
 #endif

@@ -1,38 +1,48 @@
 #include "dlist.h"
 
-void dllist_init(DLList* list) { /*начальные данные(когда двусвязный список пуст)*/
+int check_null(dllist* list){
+    if(!list){ 
+        printf("Memory allocation error!\n");
+        exit(1); 
+    } 
+}
+void dllist_init(dllist* list) { 
     list->head = NULL;
     list->tail = NULL;
     list->size = 0;
 }
 
-int size(DLList* list) {  /*получение размера*/
+int size(dllist* list) { 
+    int check_null(dllist* list);
     return list->size;
 }
 
-Publication* get(DLList* list, int index) { /*получение элемента по индексу*/
-    if (list == NULL || index < 0 || index >= list->size) {
+publication* get(dllist* list, unsigned int index) { 
+    int check_null(dllist* list);
+    if (index >= list->size) {
         return NULL;
     }
     else {
-        Node* current = list->head;
+        node* current = list->head;
         for (int i = 0; i < index; i++) {
             current = current->next;
         }
-        return &(current->data);
+        return current->data;
     }
 }
 
-Node* begin(DLList* list) { /*получение первого элемента*/
+node* begin(dllist* list) { 
+    int check_null(dllist* list);
     return list->head;
 }
 
-Node* end(DLList* list) { /*получение последнего элемента*/
+node* end(dllist* list) { 
+    int check_null(dllist* list);
     return list->tail;
 }
 
-void dllist_push_front(DLList* list, Publication data) {  /*добавление в начало*/
-    Node* new_node = (Node*)malloc(sizeof(Node));
+void dllist_push_front(dllist* list, publication* data) {  
+    node* new_node = (node*)malloc(sizeof(node));
     new_node->data = data;
     new_node->prev = NULL;
     new_node->next = list->head;
@@ -47,8 +57,8 @@ void dllist_push_front(DLList* list, Publication data) {  /*добавление
     list->size++;
 }
 
-void dllist_push_back(DLList* list, Publication data) { /*добавление в конец*/
-    Node* new_node = (Node*)malloc(sizeof(Node));
+void dllist_push_back(dllist* list, publication* data) { 
+    node* new_node = (node*)malloc(sizeof(node));
     new_node->data = data;
     new_node->next = NULL;
     new_node->prev = list->tail;
@@ -63,8 +73,8 @@ void dllist_push_back(DLList* list, Publication data) { /*добавление �
     list->size++;
 }
 
-Node* next(Node* node) { /*получение следующего*/
-    if (node != NULL) {
+node* next(node* node) {
+    if (!node) {
         return node->next;
     } 
     else {
@@ -72,8 +82,8 @@ Node* next(Node* node) { /*получение следующего*/
     }
 }
 
-Node* prev(Node* node) { /*получение предыдущего*/
-    if(node != NULL){
+node* prev(node* node) { 
+    if(!node){
         return node->prev;
     }
     else {
@@ -81,12 +91,10 @@ Node* prev(Node* node) { /*получение предыдущего*/
     }
 }
 
-void pop_front(DLList* list) { /*удаление элемента из начала*/
-    if (!list->head) {
-        return;
-    }
+void pop_front(dllist* list) { 
+    int check_null(dllist* list);
     
-    Node* temp = list->head;
+    node* temp = list->head;
     list->head = list->head->next;
     
     if (list->head) {
@@ -99,12 +107,10 @@ void pop_front(DLList* list) { /*удаление элемента из нача
     list->size--;
 }
 
-void pop_back(DLList* list) { /*удаление элемента из конца*/
-    if (!list->tail) {
-        return;
-    }
+void pop_back(dllist* list) { 
+    int check_null(dllist* list);
     
-    Node* temp = list->tail;
+    node* temp = list->tail;
     list->tail = list->tail->prev;
     
     if (list->tail) {
@@ -117,10 +123,11 @@ void pop_back(DLList* list) { /*удаление элемента из конц�
     list->size--;
 }
 
-void dllist_clear(DLList* list) { /*очистка*/
-    Node* current = list->head;
+void dllist_clear(dllist* list) {
+    int check_null(dllist* list);
+    node* current = list->head;
     while (current) {
-        Node* next = current->next;
+        node* next = current->next;
         free(current);
         current = next;
     }
@@ -130,8 +137,9 @@ void dllist_clear(DLList* list) { /*очистка*/
     list->size = 0;
 }
 
-void insert(DLList* list, int index, Publication data) { /*добавление элемента в любое место*/
-    if (index < 0 || index > list->size) {
+void insert(dllist* list, unsigned int index, publication* data) { 
+    int check_null(dllist* list);
+    if (index > list->size) {
         return;
     }
     
@@ -145,12 +153,12 @@ void insert(DLList* list, int index, Publication data) { /*добавление 
         return;
     }
     
-    Node* current = list->head;
-    for (int i = 0; i < index; i++) {
+    node* current = list->head;
+    for (unsigned int i = 0; i < index; i++) {
         current = current->next; 
     } 
     
-    Node* new_node = (Node*)malloc(sizeof(Node));
+    node* new_node = (node*)malloc(sizeof(node));
     new_node->data = data;
     new_node->prev = current->prev;
     new_node->next = current;
@@ -161,51 +169,52 @@ void insert(DLList* list, int index, Publication data) { /*добавление 
     list->size++;
 }
 
-void swap(DLList* list, int i, int j) {           /*Обмен местами*/
-    if (i < 0 || i >= list->size || j < 0 || j >= list->size || i == j) {
+void swap(dllist* list, unsigned int i, unsigned int j) { 
+    int check_null(dllist* list);
+    if (i >= list->size|| j >= list->size || i == j) {
         return;
     }
     
-    if (i > j) {
-        int temp = i;
-        i = j;
-        j = temp;
-    }
-    
-    Node* node_i = list->head;
-    for (int k = 0; k < i; k++) {
+    node* node_i = list->head;
+    for (unsigned int k = 0; k < i; k++) {
         node_i = node_i->next;
     }                                              
     
-    Node* node_j = node_i;
-    for (int k = i; k < j; k++) {
+    node* node_j = list->head;
+    for (unsigned int k = 0; k < j; k++) {
         node_j = node_j->next;
     }
     
-    Publication temp = node_i->data;
-    node_i->data = node_j->data;
-    node_j->data = temp;
+   Publication* temp = node_i->data;
+   node_i->data = node_j->data;
+   node_j->data = temp;
 }
 
-void dllist_from_array(DLList* list, Publication* array, int size) { /*из массива в список*/
+publication* dllist_from_array(dllist* list, publication* array) { 
+    int check_null(dllist* list);
+    if(!array){ 
+        printf("Memory allocation error!\n");
+        return; 
+    } 
     dllist_clear(list);
-    for (int i = 0; i < size; i++) {
+    for (unsigned int i = 0; i < list->size; i++) {
         dllist_push_back(list, array[i]);
     }
-}                                         
+    return list;
+}                                   
 
-Publication* dllist_to_array(DLList* list) {/*из списка в массив*/
-    Publication* array = (Publication*)malloc(list->size * sizeof(Publication));
-    Node* current = list->head;
-    for (int i = 0; i < list->size; i++) {
-        array[i] = current->data;
-        current = current->next;
+publication* dllist_to_array(dllist* list) {
+    int check_null(dllist* list);
+    for (unsigned int i = 0; i < list->size; i++) {
+        dllist_push_back(array[i], list);
     }
     return array;
 }
 
-void dllist_remove(DLList* list, int index) {  /*удалкение элемента из произвольного метса*/
-    if (index < 0 || index >= list->size) {
+void dllist_remove(dllist* list, unsigned int index) {
+    int check_null(dllist* list);
+
+    if (index >= list->size) {
         return;
     }
     
@@ -218,8 +227,8 @@ void dllist_remove(DLList* list, int index) {  /*удалкение элемен
         pop_back(list);
         return;
     }
-    
-    Node* current = list->head;
+
+    node* current = list->head;
     for (int i = 0; i < index; i++) {
         current = current->next;
     }
@@ -231,19 +240,13 @@ void dllist_remove(DLList* list, int index) {  /*удалкение элемен
     list->size--;
 }
 
-/*для сортировки слиянием*/
-
-/*Создание нового узла*/
-Node* createNode(Publication data) {
-    Node* newNode = (Node*)malloc(sizeof(Node));
-    if (!newNode) {
-        printf("Memory allocation error!\n");
-        exit(1);
-    }
-    newNode->data = data;
-    newNode->prev = NULL;
-    newNode->next = NULL;
-    return newNode;
+node* createnode(publication* data) {
+    node* new_node = (node*)malloc(sizeof(node));
+    int check_null(dllist* list);      /*логировнаие*/
+    new_node->data = data;
+    new_node->prev = NULL;
+    new_node->next = NULL;
+    return new_node;
 }
 
 

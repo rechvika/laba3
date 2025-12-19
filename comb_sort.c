@@ -1,6 +1,6 @@
 #include "comb_sort.h"
 
-void comb_sort(DLList* list, Comparator cmp) {
+void comb_sort(dllist* list, comparator cmp) {
     int gap = list->size;
     double shrink = 1.3;
     int sorted = 0;
@@ -13,8 +13,8 @@ void comb_sort(DLList* list, Comparator cmp) {
         }
         
         for (int i = 0; i + gap < list->size; i++) {
-            Publication* a = get(list, i);
-            Publication* b = get(list, i + gap);
+            publication* a = get(list, i);
+            publication* b = get(list, i + gap);
             
             if (cmp(a, b) > 0) {
                 swap(list, i, i + gap);
