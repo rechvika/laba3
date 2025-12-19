@@ -12,7 +12,7 @@ typedef struct {
     sort__type sort_type;
     char* input_file;
     char* output_file;
-    int generate_count;
+    unsigned int generate_count;
 } programoptions;
 
 programoptions parse_arguments(unsigned int argc, char* argv[]);

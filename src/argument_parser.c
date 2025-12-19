@@ -57,7 +57,7 @@ void print_help() {
     printf("  --in=FILE, -i FILE    Input file (CSV for sort, filename for print)\n");
     printf("  --out=FILE, -o FILE   Output file\n");
     printf("\nSort options:\n");
-    printf("  --type=asc, -t A      Sort ascending (default)\n"); /*английский на русский*/
+    printf("  --type=asc, -t A      Sort ascending (default)\n"); 
     printf("  --type=desc, -t D     Sort descending\n");
     printf("\nOther:\n");
     printf("  --help, -h            Show this help message\n");

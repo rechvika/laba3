@@ -1,43 +1,40 @@
 #include "dlist.h"
 
 int check_null(dllist* list){
-    if(!list){ 
-        printf("Memory allocation error!\n");
-        exit(1); 
-    } 
+    return (list == NULL) ? 1 : 0;
 }
 void dllist_init(dllist* list) { 
-    list->head = NULL;
-    list->tail = NULL;
-    list->size = 0;
+    if(list){
+        list->head = NULL;
+        list->tail = NULL;
+        list->size = 0;
+    }
 }
 
 int size(dllist* list) { 
-    int check_null(dllist* list);
     return list->size;
 }
 
 publication* get(dllist* list, unsigned int index) { 
-    int check_null(dllist* list);
     if (index >= list->size) {
         return NULL;
     }
     else {
         node* current = list->head;
-        for (int i = 0; i < index; i++) {
-            current = current->next;
+        for (unsigned int i = 0; i < index; i++) {
+            current = (node *)current->next;
         }
         return current->data;
     }
 }
 
 node* begin(dllist* list) { 
-    int check_null(dllist* list);
+
     return list->head;
 }
 
 node* end(dllist* list) { 
-    int check_null(dllist* list);
+
     return list->tail;
 }
 
@@ -73,18 +70,18 @@ void dllist_push_back(dllist* list, publication* data) {
     list->size++;
 }
 
-node* next(node* node) {
-    if (!node) {
-        return node->next;
+node* next(node* current) {
+    if (!current) {
+        return current->next;
     } 
     else {
         return NULL;
     }
 }
 
-node* prev(node* node) { 
-    if(!node){
-        return node->prev;
+node* prev(node* current) { 
+    if(!current){
+        return current->prev;
     }
     else {
         return NULL;
@@ -92,7 +89,7 @@ node* prev(node* node) {
 }
 
 void pop_front(dllist* list) { 
-    int check_null(dllist* list);
+    if (!list || !list->head) return NULL;
     
     node* temp = list->head;
     list->head = list->head->next;
@@ -108,7 +105,7 @@ void pop_front(dllist* list) {
 }
 
 void pop_back(dllist* list) { 
-    int check_null(dllist* list);
+
     
     node* temp = list->tail;
     list->tail = list->tail->prev;
@@ -124,7 +121,7 @@ void pop_back(dllist* list) {
 }
 
 void dllist_clear(dllist* list) {
-    int check_null(dllist* list);
+
     node* current = list->head;
     while (current) {
         node* next = current->next;
@@ -138,7 +135,7 @@ void dllist_clear(dllist* list) {
 }
 
 void insert(dllist* list, unsigned int index, publication* data) { 
-    int check_null(dllist* list);
+
     if (index > list->size) {
         return;
     }
@@ -170,7 +167,6 @@ void insert(dllist* list, unsigned int index, publication* data) {
 }
 
 void swap(dllist* list, unsigned int i, unsigned int j) { 
-    int check_null(dllist* list);
     if (i >= list->size|| j >= list->size || i == j) {
         return;
     }
@@ -191,7 +187,7 @@ void swap(dllist* list, unsigned int i, unsigned int j) {
 }
 
 publication* dllist_from_array(dllist* list, publication* array) { 
-    int check_null(dllist* list);
+
     if(!array){ 
         printf("Memory allocation error!\n");
         return; 
@@ -204,7 +200,7 @@ publication* dllist_from_array(dllist* list, publication* array) {
 }                                   
 
 publication* dllist_to_array(dllist* list) {
-    int check_null(dllist* list);
+
     for (unsigned int i = 0; i < list->size; i++) {
         dllist_push_back(array[i], list);
     }
@@ -212,7 +208,7 @@ publication* dllist_to_array(dllist* list) {
 }
 
 void dllist_remove(dllist* list, unsigned int index) {
-    int check_null(dllist* list);
+
 
     if (index >= list->size) {
         return;
@@ -242,7 +238,7 @@ void dllist_remove(dllist* list, unsigned int index) {
 
 node* createnode(publication* data) {
     node* new_node = (node*)malloc(sizeof(node));
-    int check_null(dllist* list);      /*логировнаие*/
+   
     new_node->data = data;
     new_node->prev = NULL;
     new_node->next = NULL;

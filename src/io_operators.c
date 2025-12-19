@@ -17,7 +17,7 @@ void write_csv(const char* filename, dllist* list) {
     
     node* current = list->head;
     while (current != NULL) {
-        fprintf(fp, "\"%s\",\"%s\",\"%s\",\"%s\",%d,%d,%s,%d,%d\n", /*\ что это*/
+        fprintf(fp, "\"%s\",\"%s\",\"%s\",\"%s\",%d,%d,%s,%d,%d\n",
                 current->data->title,
                 current->data->author_lastname,
                 current->data->author_initials,
@@ -27,7 +27,7 @@ void write_csv(const char* filename, dllist* list) {
                 current->data->is_rinc ? "true" : "false",
                 current->data->pages,
                 current->data->citations);
-        current = current->next;
+        current = (node *)current->next;
     }
     
     if (filename) {
@@ -37,7 +37,7 @@ void write_csv(const char* filename, dllist* list) {
 
 void read_csv(const char* filename, dllist* list) { 
     FILE* fp;
-//    Node* current = list->head;
+//    node* current = list->head;
     
     if (filename) {
         fp = fopen(filename, "r");
@@ -58,7 +58,7 @@ void read_csv(const char* filename, dllist* list) {
         return;
     }
     
-    while (fgets(line, sizeof(line), fp)) { /*вайл\фор*/
+    while (fgets(line, sizeof(line), fp)) { 
         publication* pub;
         
         line[strcspn(line, "\n")] = 0; 
@@ -69,7 +69,7 @@ void read_csv(const char* filename, dllist* list) {
         } 
 
         if (token[0] == '"') {  
-            strncpy(token, token + 1, strlen(token));  */
+            strncpy(token, token + 1, strlen(token));  
             token[strlen(token) - 1] = 0;
         }
         strncpy(pub->title, token, MAX_STRING_LENGTH - 1); 
@@ -148,7 +148,7 @@ void print_table(const char* filename, dllist* list) {
                 current->data->is_rinc ? "YES" : "NO",
                 current->data->pages,
                 current->data->citations);
-        current = current->next;
+        current = (node *)current->next;
     }
     
     fprintf(fp, "└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘\n");

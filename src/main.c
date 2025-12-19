@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h> /*линие файлы*/
-#include <locale.h> /*проверка на переполнение*/
+#include <time.h>
+#include <locale.h> 
 #include "argument_parser.h"
 #include "publication.h"
 #include "dlist.h"

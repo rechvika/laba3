@@ -14,7 +14,7 @@ typedef struct  {
 typedef struct {
     node* head;
     node* tail;
-    int size;
+    unsigned int size;
 } dllist;
 
 void dllist_init(dllist* list);

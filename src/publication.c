@@ -79,7 +79,7 @@ int publication_compare_desc(const publication* pub_1, const publication* pub_2)
 }
 
 publication* publication_generate_random(publication* pub) { 
-    strcpy(pub->title, titles[rand() % 10]);  /*!указатели*/
+    strcpy(pub->title, titles[rand() % 10]);  
     strcpy(pub->author_lastname, lastnames[rand() % 10]);
     strcpy(pub->author_initials, initials[rand() % 10]);
     strcpy(pub->journal, journals[rand() % 10]);
