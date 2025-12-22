@@ -1,11 +1,12 @@
-#ifndef IO_OPERATIONS_H
+#pragma once
+
 #define IO_OPERATIONS_H
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#include "dlist.h"
+#include "../include/dlist.h"
 
 typedef enum { 
     MODE_GENERATE,
@@ -13,7 +14,7 @@ typedef enum {
     MODE_SORT_MERGE,
     MODE_PRINT,
     MODE_UNKNOWN
-} programMode;
+} programmode;
 
 typedef enum {
     SORT_ASC,
@@ -24,4 +25,3 @@ void write_csv(const char* filename, dllist* list);
 void read_csv(const char* filename, dllist* list);
 void print_table(const char* filename, dllist* list);
 
-#endif

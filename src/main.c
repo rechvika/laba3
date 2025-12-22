@@ -3,12 +3,13 @@
 #include <string.h>
 #include <time.h>
 #include <locale.h> 
-#include "argument_parser.h"
-#include "publication.h"
-#include "dlist.h"
-#include "comb_sort.h"
-#include "io_operators.h"
-#include "merge_sort.h"
+#include "../include/argument_parser.h"
+#include "../include/publication.h"
+#include "../include/dlist.h"
+#include "../include/comb_sort.h"
+#include "../include/io_operators.h"
+#include "../include/merge_sort.h"
+#include "../include/comparator.h"
 
 int main(int argc, char* argv[]) {
 
@@ -27,10 +28,10 @@ int main(int argc, char* argv[]) {
     
     switch (options.mode) {
         case MODE_GENERATE: {
-            publication* pub;
-            for (unsigned int i = 0; i < options.generate_count; i++) {
-                publication_generate_random(pub);
-                dllist_push_back(&list, pub);
+            publication pub;
+            for (uint i = 0; i < options.generate_count; i++) {
+                publication_generate_random(&pub);
+                dllist_push_back(&list, &pub);
             }
             
             write_csv(options.output_file, &list); 
@@ -42,9 +43,9 @@ int main(int argc, char* argv[]) {
             
             comparator cmp;
             if (options.sort_type == SORT_DESC) {
-                cmp = (int (*)(const void*, const void*))publication_compare_desc; 
+                cmp = (comparator)publication_compare_desc; 
             } else {
-                cmp = (int (*)(const void*, const void*))publication_compare_asc;
+                cmp = (comparator)publication_compare_asc;
             }
             
             comb_sort(&list, cmp);
@@ -53,9 +54,20 @@ int main(int argc, char* argv[]) {
         }
 
         case MODE_SORT_MERGE: {
+            if (!options.input_file) {
+                fprintf(stderr, "Error: Input file required for merge sort mode\n");
+                dllist_clear(&list);
+                return 1;
+            }
             read_csv(options.input_file, &list); 
             
-            mergeSort(list.head);
+            comparator cmp;
+            if (options.sort_type == SORT_DESC) {
+                cmp = (comparator)publication_compare_desc;  
+            } else {
+                cmp = (comparator)publication_compare_asc;
+            }
+            merge_sort(&list, 0, size(&list) - 1, cmp);
 
             write_csv(options.output_file, &list);
             break;
@@ -76,7 +88,7 @@ int main(int argc, char* argv[]) {
 
             print_table(options.output_file, &list);
             
-            if (!options.input_file) {
+            if (options.input_file) {
                 free(options.input_file);
             }
             break;

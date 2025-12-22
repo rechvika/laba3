@@ -1,6 +1,6 @@
-#include "publication.h"
+#include "../include/publication.h"
 
-static const char* titles[] = {
+static const char* titles[] = { 
     "Research on Algorithms",
     "cones in captivity",
     "squirrels in the wheel",

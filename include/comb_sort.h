@@ -1,12 +1,11 @@
-#ifndef COMB_SORT_H
+#pragma once
+
 #define COMB_SORT_H
 
-#include "dlist.h"
-#include "publication.h"
+#include "../include/dlist.h"
+#include "../include/publication.h"
 #include <math.h>
-
-typedef int (*comparator)(const void*, const void*);
+#include "../include/comparator.h"
 
 void comb_sort(dllist* list, comparator cmp);
 
-#endif

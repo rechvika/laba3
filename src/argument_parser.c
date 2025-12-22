@@ -1,14 +1,14 @@
-#include "argument_parser.h"
+#include "../include/argument_parser.h"
 
-programOptions parse_arguments(unsigned int argc, char* argv[]) {
-    programOptions options;
+programoptions parse_arguments(uint argc, char* argv[]) {
+    programoptions options;
     options.mode = MODE_UNKNOWN;
     options.sort_type = SORT_ASC;
     options.input_file = NULL;
     options.output_file = NULL;
     options.generate_count = 0;
     
-    for (unsigned int i = 1; i < argc; i++) { 
+    for (uint i = 1; i < argc; i++) { 
         if (strcmp(argv[i], "--generate") == 0 || strcmp(argv[i], "-g") == 0) {
             options.mode = MODE_GENERATE;
             if (i + 1 < argc) {

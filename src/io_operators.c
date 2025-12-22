@@ -1,4 +1,4 @@
-#include "io_operators.h"
+#include "../include/io_operators.h"
 
 void write_csv(const char* filename, dllist* list) { 
     FILE* fp;
@@ -27,7 +27,7 @@ void write_csv(const char* filename, dllist* list) {
                 current->data->is_rinc ? "true" : "false",
                 current->data->pages,
                 current->data->citations);
-        current = (node *)current->next;
+        current = current->next;
     }
     
     if (filename) {
@@ -37,7 +37,6 @@ void write_csv(const char* filename, dllist* list) {
 
 void read_csv(const char* filename, dllist* list) { 
     FILE* fp;
-//    node* current = list->head;
     
     if (filename) {
         fp = fopen(filename, "r");
@@ -49,7 +48,7 @@ void read_csv(const char* filename, dllist* list) {
         fp = stdin;
     }
     
-    char line[1024]; /*почему 1024. плохо*/
+    char line[MAX_INITIALS_LENGTH + 3*MAX_STRING_LENGTH + 4 + 3 + 1 + 5 +7];
     
     if (!fgets(line, sizeof(line), fp)) {
         if (filename) {
@@ -59,20 +58,68 @@ void read_csv(const char* filename, dllist* list) {
     }
     
     while (fgets(line, sizeof(line), fp)) { 
-        publication* pub;
+        publication* pub = malloc(sizeof(publication));
         
         line[strcspn(line, "\n")] = 0; 
         
         char* token = strtok(line, ","); 
         if (!token){ 
+            free(pub);
             continue;
         } 
-
+        /*
+        for (int field = 0; field < 8; field++) { // Упрощение через цикл
+            token = strtok(NULL, ",");
+            if (!token) break;
+            
+            // Удаляем кавычки если есть
+            if (token[0] == '"') {
+                memmove(token, token + 1, strlen(token));
+                token[strlen(token) - 1] = 0;
+            }
+            
+            switch(field) {
+                case 0: // author_lastname
+                    strncpy(pub->author_lastname, token, MAX_STRING_LENGTH - 1);
+                    pub->author_lastname[MAX_STRING_LENGTH - 1] = '\0';
+                    break;
+                case 1: // author_initials
+                    strncpy(pub->author_initials, token, MAX_INITIALS_LENGTH - 1);
+                    pub->author_initials[MAX_INITIALS_LENGTH - 1] = '\0';
+                    break;
+                case 2: // journal
+                    strncpy(pub->journal, token, MAX_STRING_LENGTH - 1);
+                    pub->journal[MAX_STRING_LENGTH - 1] = '\0';
+                    break;
+                case 3: // year
+                    pub->year = (unsigned short)atoi(token);
+                    break;
+                case 4: // volume
+                    pub->volume = (unsigned short)atoi(token);
+                    break;
+                case 5: // is_rinc
+                    pub->is_rinc = (strcmp(token, "true") == 0 || strcmp(token, "1") == 0);
+                    break;
+                case 6: // pages
+                    pub->pages = (unsigned short)atoi(token);
+                    break;
+                case 7: // citations
+                    pub->citations = (unsigned short)atoi(token);
+                    break;
+            }
+        dllist_push_back(list, pub);
+    }
+    if (filename) {
+        fclose(fp);
+    }
+}
+                    */
         if (token[0] == '"') {  
             strncpy(token, token + 1, strlen(token));  
             token[strlen(token) - 1] = 0;
         }
         strncpy(pub->title, token, MAX_STRING_LENGTH - 1); 
+        pub->title[MAX_STRING_LENGTH - 1] = '\0'; 
         
         token = strtok(NULL, ",");  /* ? нал*/
         if (token[0] == '"') {
@@ -136,7 +183,7 @@ void print_table(const char* filename, dllist* list) {
             "Title", "Author", "Initials", "Journal");
     fprintf(fp, "├─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤\n");
     
-    node* current = list->head;
+    node* current = list->head; 
     while (current) {
         fprintf(fp, "│ %-30.30s │ %-15.15s │ %-10.10s │ %-25.25s │ %4d │ %3d │ %4s │ %5d │ %3d │\n",
                 current->data->title,
@@ -148,7 +195,7 @@ void print_table(const char* filename, dllist* list) {
                 current->data->is_rinc ? "YES" : "NO",
                 current->data->pages,
                 current->data->citations);
-        current = (node *)current->next;
+        current = current->next;
     }
     
     fprintf(fp, "└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘\n");

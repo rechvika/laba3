@@ -33,7 +33,7 @@
 
 # merge_sort.c
 
-- node* merge_sort(node* head) - сортировка слиянием
+- node* mergesort(node* head) - сортировка слиянием
 - node* merge(node* left, node* right) - функция слияния
 - node* split(node* head) - деление строки пополам
 

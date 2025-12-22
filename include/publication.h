@@ -1,4 +1,5 @@
-#ifndef PUBLICATION_H
+#pragma once
+
 #define PUBLICATION_H
 
 
@@ -17,7 +18,7 @@ typedef struct {
     char journal[MAX_STRING_LENGTH];
     unsigned short year;
     unsigned short volume; 
-    unsigned int is_rinc;
+    unsigned short is_rinc;
     unsigned short pages;
     unsigned short citations;
 } publication;
@@ -27,4 +28,3 @@ int publication_compare_asc(const publication* pub_1, const publication* pub_2);
 int publication_compare_desc(const publication* pub_1, const publication* pub_2);
 publication* publication_generate_random(publication* pub);
 
-#endif

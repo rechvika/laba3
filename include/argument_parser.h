@@ -1,21 +1,22 @@
-#ifndef ARGUMENT_PARSER_H
+#pragma once
+
 #define ARGUMENT_PARSER_H
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#include "io_operators.h"
+#include "../include/io_operators.h"
+#include "../include/publication.h"
 
 typedef struct { 
-    programMode mode;
+    programmode mode;
     sort__type sort_type;
     char* input_file;
     char* output_file;
-    unsigned int generate_count;
+    uint generate_count;
 } programoptions;
 
-programoptions parse_arguments(unsigned int argc, char* argv[]);
+programoptions parse_arguments(uint argc, char* argv[]);
 void print_help();
 
-#endif

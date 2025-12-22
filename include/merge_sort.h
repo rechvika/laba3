@@ -1,13 +1,12 @@
-#ifndef MERGE_SORT_H
+#pragma once
+
 #define MERGE_SORT_H
 
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "dlist.h"
+#include "../include/dlist.h"
+#include "../include/comparator.h"
 
-node* split(node* head);
-node* merge(node* left, node* right);
-node* mergeSort(node* head);
-
-#endif
+void merge(dllist* list, uint left, uint mid, uint right, comparator cmp);
+void merge_sort(dllist* list, uint left, uint right, comparator cmp);

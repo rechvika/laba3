@@ -1,70 +1,65 @@
-#include "merge_sort.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include "../include/merge_sort.h"
 
-node* split(node* head) {
-    node* slow = head;
-    node* fast = head->next;
-
-    while (fast != NULL && fast->next != NULL) {
-        slow = slow->next;
-        fast = fast->next->next;
+void merge(dllist* list, uint left, uint mid, uint right, comparator cmp) {
+    uint i, j;
+    uint len_1 = mid - left + 1;
+    uint len_2 = right - mid;
+    
+    dllist* left_dllist = (dllist*)malloc(len_1 * sizeof(int));
+    dllist* right_dllist = (dllist*)malloc(len_2 * sizeof(int));
+    
+    if (left_dllist == NULL || right_dllist == NULL) {
+        printf("error\n");
+        free(left_dllist);
+        free(right_dllist);
+        return;
     }
-    return slow;
+    
+    for (i = 0; i < len_1; i++){
+        dllist_push_back_merge(left_dllist, get(list, i));
+    }
+    for (j = 0; j < len_2; j++){
+        dllist_push_back_merge(right_dllist, get(list, i));
+    }
+    
+    i = 0; 
+    j = 0; 
+    dllist_clear(list);
+    
+    while (i < len_1 && j < len_2) {
+        if (cmp(get(left_dllist, i), get(right_dllist, j)) <= 0) {
+            dllist_push_back_merge(list, get(left_dllist, i));
+            i++;
+        } else {
+            dllist_push_back_merge(list, get(right_dllist, j));
+            j++;
+        }
+    }
+    
+    while (i < len_1) {
+       dllist_push_back_merge(list, get(left_dllist, i));
+        i++;
+    }
+    
+    while (j < len_2) {
+        dllist_push_back_merge(list, get(right_dllist, j));
+        j++;
+    }
+    
+    dllist_clear(left_dllist);
+    dllist_clear(right_dllist);
 }
 
-node* merge(node* left, node* right) { 
-    
-    if (!left) return right;
-    if (!right) return left;
-    
-    node* result = NULL;
-    
-    if (left->data <= right->data) {
-        result = left;
-        result->next = merge(left->next, right);  
-        if (!result->next) {
-            result->next->prev = result;
-        }
-    } else {
-        result = right;
-        result->next = merge(left, right->next);
-        if (!result->next) {
-            result->next->prev = result;
-        }
-    }
-    
-    result->prev = NULL;
-    return result;
-}
-
-node* mergeSort(node* head) { 
-    if (head == NULL || head->next == NULL) {
-        return head;
-    }
-    
-    node* middle = split(head);
-    node* nextToMiddle = middle->next;
-    
-    middle->next = NULL;
-    if (nextToMiddle != NULL) {
-        nextToMiddle->prev = NULL;
-    }
-    
-    node* left = mergeSort(head);
-    node* right = mergeSort(nextToMiddle);
-    
-    return merge(left, right);
-}
-
-void sortList(node** headRef, node** tailRef) {
-    if (*headRef == NULL) return;
-    
-    *headRef = mergeSort(*headRef);
-   
-    *tailRef = *headRef;
-    if (*tailRef != NULL) {
-        while ((*tailRef)->next != NULL) {
-            *tailRef = (*tailRef)->next;
-        }
+void merge_sort(dllist* list, uint left, uint right, comparator cmp) {
+    if (left < right) {
+        uint mid = left + (right - left) / 2;
+        
+        merge_sort(list, left, mid, cmp);
+        merge_sort(list, mid + 1, right, cmp);
+        
+        merge(list, left, mid, right, cmp);
     }
 }
 
