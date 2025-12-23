@@ -1,4 +1,4 @@
-#include "../include/comb_sort.h"
+#include "comb_sort.h"
 
 void comb_sort(dllist* list, comparator cmp) {
     uint gap = list->size;

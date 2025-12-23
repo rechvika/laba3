@@ -1,7 +1,6 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -std=c99 -pedantic
 INCLUDES = -Iinclude
-TARGET = publication_sort.exe
 
 SRC_DIR = src
 INCLUDE_DIR = include
@@ -22,38 +21,29 @@ HEADER_FILES = $(INCLUDE_DIR)/dlist.h \
                $(INCLUDE_DIR)/comb_sort.h \
                $(INCLUDE_DIR)/argument_parser.h \
                $(INCLUDE_DIR)/merge_sort.h \
-               $(INCLUDE_DIR)/comparator.h  # Добавляем новый файл
+               $(INCLUDE_DIR)/comparator.h
 
 OBJ_FILES = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC_FILES))
 
-TARGET = $(BIN_DIR)/program
+EXECUTABLE = publication_sort.exe
+TARGET = $(BIN_DIR)/$(EXECUTABLE)
 
 all: $(TARGET)
 
 $(TARGET): $(OBJ_FILES)
 	@mkdir -p $(BIN_DIR)
 	$(CC) $(CFLAGS) -o $@ $^
+	@echo Сборка завершена: $(TARGET)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADER_FILES)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(OBJ_DIR)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
-	rm -rf $(OBJ_DIR)/*.o $(TARGET)
-
+	@rm -f $(OBJ_DIR)/*.o $(TARGET)
+	@echo Файлы очищены
 clean-all:
-	rm -rf $(OBJ_DIR) $(BIN_DIR)
+	@rm -rf $(OBJ_DIR) $(BIN_DIR)
+	@echo Директории очищены
 
-run: $(TARGET)
-	./$(TARGET)
-
-debug: CFLAGS += -g -O0
-debug: clean $(TARGET)
-
-release: CFLAGS += -O2 -DNDEBUG
-release: clean $(TARGET)
-
-depend:
-	$(CC) -MM $(INCLUDES) $(SRC_FILES) > Makefile.deps
-
-.PHONY: all clean clean-all run debug release depend
+.PHONY: all clean clean-all run debug release

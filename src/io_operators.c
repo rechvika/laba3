@@ -1,35 +1,32 @@
-#include "../include/io_operators.h"
+#include "io_operators.h"
 
 void write_csv(const char* filename, dllist* list) { 
     FILE* fp;
     
     if (filename) {
         fp = fopen(filename, "w");
-        if (!fp) {   
-            printf("Error opening file for writing: %s\n", filename);
+        if (!fp) {
+            write_log(filename);
             return;
         }
     } else {
         fp = stdout;
     }
     
-    fprintf(fp, "title,author_lastname,author_initials,journal,year,volume,is_rinc,pages,citations\n");
-    
-    node* current = list->head;
-    while (current != NULL) {
-        fprintf(fp, "\"%s\",\"%s\",\"%s\",\"%s\",%d,%d,%s,%d,%d\n",
-                current->data->title,
-                current->data->author_lastname,
-                current->data->author_initials,
-                current->data->journal,
-                current->data->year,
-                current->data->volume,
-                current->data->is_rinc ? "true" : "false",
-                current->data->pages,
-                current->data->citations);
-        current = current->next;
+    fprintf(fp, "Название,фамилия автора,инициалы автора,журнал,год,том,rinc,страницы,цитирования\n");
+    uint count = size(list);   
+    for (uint i = 0; i < count; i++) {
+        fprintf(fp, "\"%s\",\"%s\",\"%s\",\"%s\",%s,%s,%s,%s,%s\n",
+                publication_get_i(list, i, 1),
+                publication_get_i(list, i, 2),
+                publication_get_i(list, i, 3),
+                publication_get_i(list, i, 4),
+                publication_get_i(list, i, 5),
+                publication_get_i(list, i, 6),
+                publication_get_i(list, i, 7),
+                publication_get_i(list, i, 8),
+                publication_get_i(list, i, 9));
     }
-    
     if (filename) {
         fclose(fp);
     }
@@ -41,25 +38,28 @@ void read_csv(const char* filename, dllist* list) {
     if (filename) {
         fp = fopen(filename, "r");
         if (!fp) {
-            printf("Error opening file for reading: %s\n", filename);
+            write_log(filename);
             return;
         }
     } else {
         fp = stdin;
     }
     
-    char line[MAX_INITIALS_LENGTH + 3*MAX_STRING_LENGTH + 4 + 3 + 1 + 5 +7];
+    char line_1[LEN_LINE];
     
-    if (!fgets(line, sizeof(line), fp)) {
+    if (!fgets(line_1, LEN_LINE, fp)) {
         if (filename) {
-            fclose(fp);
+            fclose(fp); 
         }
         return;
     }
+    char line[LEN_LINE];
     
-    while (fgets(line, sizeof(line), fp)) { 
+    while (fgets(line, LEN_LINE, fp)) { 
         publication* pub = malloc(sizeof(publication));
-        
+        if (!pub) { 
+            continue;
+        }
         line[strcspn(line, "\n")] = 0; 
         
         char* token = strtok(line, ","); 
@@ -67,53 +67,6 @@ void read_csv(const char* filename, dllist* list) {
             free(pub);
             continue;
         } 
-        /*
-        for (int field = 0; field < 8; field++) { // Упрощение через цикл
-            token = strtok(NULL, ",");
-            if (!token) break;
-            
-            // Удаляем кавычки если есть
-            if (token[0] == '"') {
-                memmove(token, token + 1, strlen(token));
-                token[strlen(token) - 1] = 0;
-            }
-            
-            switch(field) {
-                case 0: // author_lastname
-                    strncpy(pub->author_lastname, token, MAX_STRING_LENGTH - 1);
-                    pub->author_lastname[MAX_STRING_LENGTH - 1] = '\0';
-                    break;
-                case 1: // author_initials
-                    strncpy(pub->author_initials, token, MAX_INITIALS_LENGTH - 1);
-                    pub->author_initials[MAX_INITIALS_LENGTH - 1] = '\0';
-                    break;
-                case 2: // journal
-                    strncpy(pub->journal, token, MAX_STRING_LENGTH - 1);
-                    pub->journal[MAX_STRING_LENGTH - 1] = '\0';
-                    break;
-                case 3: // year
-                    pub->year = (unsigned short)atoi(token);
-                    break;
-                case 4: // volume
-                    pub->volume = (unsigned short)atoi(token);
-                    break;
-                case 5: // is_rinc
-                    pub->is_rinc = (strcmp(token, "true") == 0 || strcmp(token, "1") == 0);
-                    break;
-                case 6: // pages
-                    pub->pages = (unsigned short)atoi(token);
-                    break;
-                case 7: // citations
-                    pub->citations = (unsigned short)atoi(token);
-                    break;
-            }
-        dllist_push_back(list, pub);
-    }
-    if (filename) {
-        fclose(fp);
-    }
-}
-                    */
         if (token[0] == '"') {  
             strncpy(token, token + 1, strlen(token));  
             token[strlen(token) - 1] = 0;
@@ -121,7 +74,7 @@ void read_csv(const char* filename, dllist* list) {
         strncpy(pub->title, token, MAX_STRING_LENGTH - 1); 
         pub->title[MAX_STRING_LENGTH - 1] = '\0'; 
         
-        token = strtok(NULL, ",");  /* ? нал*/
+        token = strtok(NULL, ","); 
         if (token[0] == '"') {
             strncpy(token, token + 1, strlen(token));
             token[strlen(token) - 1] = 0;
@@ -143,23 +96,37 @@ void read_csv(const char* filename, dllist* list) {
         strncpy(pub->journal, token, MAX_STRING_LENGTH - 1);
         
         token = strtok(NULL, ",");
-        pub->year = strtoul(token, NULL, 0);
+        pub->year = strtoul(token, NULL, 10);
+  //      if(pub->year == ULONG_MAX || pub->year == NULL){
+    //        write_log(filename);
+      //      return;
+        //}
         
         token = strtok(NULL, ",");
-        pub->volume = strtoul(token, NULL, 0);
-        /* + повторения в цикл*/
+        pub->volume = strtoul(token, NULL, 10);
+      //  if(pub->volume == ULONG_MAX || pub->year == NULL){
+        //    write_log(filename);
+      //      return;
+    //    }
+
         token = strtok(NULL, ",");
         pub->is_rinc = (strcmp(token, "true") == 0 || strcmp(token, "1") == 0);
         
         token = strtok(NULL, ",");
-        pub->pages = strtoul(token, NULL, 0);
+        pub->pages = strtoul(token, NULL, 10);
+  //      if(pub->pages == ULONG_MAX || pub->year == NULL){
+       //     write_log(filename);
+     //       return;
+   //     }
         
         token = strtok(NULL, ",");
-        pub->citations = strtoul(token, NULL, 0);
-        
+        pub->citations = strtoul(token, NULL, 10);
+ //       if(pub->citations == ULONG_MAX || pub->year == NULL){
+    //        write_log(filename);
+      //      return;
+       // }
         dllist_push_back(list, pub);
     }
-    
     if (filename) {
         fclose(fp);
     }
@@ -170,36 +137,30 @@ void print_table(const char* filename, dllist* list) {
     
     if (filename) {
         fp = fopen(filename, "w");
-        if (!fp) {
-            printf("Error opening file for writing: %s\n", filename);
-            return;
-        }
-    } else {
-        fp = stdout;
-    }
+  //      if (!fp) {
+    //        write_log(filename);
+      //      return;
+        //}
+//    } else {
+  //      fp = stdout;
+}
     
-    fprintf(fp, "┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐\n");
     fprintf(fp, "│ %-30s │ %-15s │ %-10s │ %-25s │ Year │ Vol │ RINC │ Pages │ Cit │\n",
             "Title", "Author", "Initials", "Journal");
-    fprintf(fp, "├─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤\n");
     
-    node* current = list->head; 
-    while (current) {
-        fprintf(fp, "│ %-30.30s │ %-15.15s │ %-10.10s │ %-25.25s │ %4d │ %3d │ %4s │ %5d │ %3d │\n",
-                current->data->title,
-                current->data->author_lastname,
-                current->data->author_initials,
-                current->data->journal,
-                current->data->year,
-                current->data->volume,
-                current->data->is_rinc ? "YES" : "NO",
-                current->data->pages,
-                current->data->citations);
-        current = current->next;
+    uint count = size(list);   
+    for (uint i = 0; i < count; i++) {
+        fprintf(fp, "│ %-30.30s │ %-15.15s │ %-10.10s │ %-25.25s │ %4s │ %3s │ %4s │ %5s │ %3s │\n",
+                publication_get_i(list, i, 1),
+                publication_get_i(list, i, 2),
+                publication_get_i(list, i, 3),
+                publication_get_i(list, i, 4),
+                publication_get_i(list, i, 5),
+                publication_get_i(list, i, 6),
+                publication_get_i(list, i, 7),
+                publication_get_i(list, i, 8),
+                publication_get_i(list, i, 9));
     }
-    
-    fprintf(fp, "└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘\n");
-    
     if (filename) {
         fclose(fp);
     }

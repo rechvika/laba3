@@ -1,10 +1,8 @@
 #pragma once
 
-#define DLLIST_H
-
 #include <stdlib.h>
 #include <string.h>
-#include "../include/publication.h"
+#include "publication.h"
 
 typedef unsigned int uint;
 
@@ -38,4 +36,5 @@ void swap(dllist* list, unsigned int i, unsigned int j);
 void dllist_remove(dllist* list, unsigned int index);
 void dllist_from_array(dllist* list, publication* array, unsigned int size);
 publication* dllist_to_array(dllist* list);
-
+const char* publication_get_i(dllist* list, uint index, uint indicator);
+void write_log(const char* message);

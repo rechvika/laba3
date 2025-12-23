@@ -1,77 +1,99 @@
-#include "../include/publication.h"
+#include "publication.h"
 
 static const char* titles[] = { 
-    "Research on Algorithms",
-    "cones in captivity",
-    "squirrels in the wheel",
-    "The dream of a test",
-    "successful success",
-    "SpongeBob vs Patrick",
-    "smeshariki vs malyshariki",
-    "bears on the hunt",
-    "matanalysis for the stupid",
-    "The hamster is locked up"};
+    "Исследование алгоритмов",
+    "шишки в неволе",
+    "Белки в колесе",
+    "Мечта о тесте",
+    "Успешный успех",
+    "Губка Боб против Патрика",
+    "Смешарики против малышариков",
+    "медведи на охоте",
+    "математический анализ для тупых",
+    "Хомяк заперт"};
 
 static const char* lastnames[] = {
-    "Ivanov",
-    "Sokolov",
-    "Popov",
-    "Vasnetsov",
-    "Antonov",
-    "Vasiliev",
-    "Aligatorov",
-    "Lunikov",
-    "Kuznetsov",
-    "Gusenkov", 
+    "Иванов",
+    "Соколов",
+    "Попов",
+    "Васнецов",
+    "Антонов",
+    "Васильев",
+    "Аллигаторов",
+    "Луников",
+    "Кузнецов",
+    "Гусенков",
 };
 
 static const char* initials[] = {
-    "A.A.",
-    "R.R",
-    "T.T",
-    "E.E",
-    "Q.Q",
-    "D.D",
-    "V.V",
-    "C.C",
-    "X.X",
-    "Z.Z",
+    "А.А.",
+    "Р.Р",
+    "Т.Т",
+    "Е.Е",
+    "К.К",
+    "Д.Д",
+    "В.В",
+    "К.К",
+    "Х.Х",
+    "З.З",
 };
 
 static const char* journals[] = {
-    "cone",
-    "squirrel",
-    "shawarma",
-    "bear",
-    "unicorn",
-    "flamingo",
-    "bird",
-    "wolf",
-    "pig",
-    "fox"
+    "шишка",
+    "белка",
+    "шаурма",
+    "медведь",
+    "единорог",
+    "фламинго",
+    "птица",
+    "волк",
+    "свинья",
+    "лиса"
 };
 
 void publication_print(const publication* pub) { 
-    printf("Title: %s\n", pub->title);
-    printf("Author: %s %s\n", pub->author_lastname, pub->author_initials);
-    printf("Journal: %s\n", pub->journal);
-    printf("Year: %d, Volume: %d\n", pub->year, pub->volume);
+    printf("Заголовок: %s\n", pub->title);
+    printf("Автор: %s %s\n", pub->author_lastname, pub->author_initials);
+    printf("Журнал: %s\n", pub->journal);
+    printf("Год: %d, Том: %d\n", pub->year, pub->volume);
     printf("RINC: %s\n", pub->is_rinc ? "YES" : "NO");
-    printf("Pages: %d, Citations: %d\n", pub->pages, pub->citations);
+    printf("Страницы: %d, Цитирования: %d\n", pub->pages, pub->citations);
 }
 
 int publication_compare_asc(const publication* pub_1, const publication* pub_2) {        
 
-    int author_cmp = strcmp(pub_1->author_lastname, pub_2->author_lastname);           
-    if (author_cmp != 0) {
-        return author_cmp;
-    }                                                                                 
+    int title_cmp = strcmp(pub_1->title, pub_2->title);           
+    if (title_cmp != 0) {
+        return title_cmp;
+    }
+
+    int authorln_cmp = strcmp(pub_1->author_lastname, pub_2->author_lastname);           
+    if (authorln_cmp != 0) {
+        return authorln_cmp;
+    }
     
+    int authorin_cmp = strcmp(pub_1->author_initials, pub_2->author_initials);           
+    if (authorin_cmp != 0) {
+        return authorin_cmp;
+    }
+    
+    int journal_cmp = strcmp(pub_1->journal, pub_2->journal);           
+    if (journal_cmp != 0) {
+        return journal_cmp;
+    }
+
     if (pub_1->year != pub_2->year) {
         return pub_1->year - pub_2->year;
     }
 
-    return strcmp(pub_1->title, pub_2->title);
+    if (pub_1->volume != pub_2->volume) {
+        return pub_1->volume - pub_2->volume;
+    }
+
+    if (pub_1->pages != pub_2->pages) {
+        return pub_1->pages - pub_2->pages;
+    }
+    return 0;
 }
 
 int publication_compare_desc(const publication* pub_1, const publication* pub_2) { 

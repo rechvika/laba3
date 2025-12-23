@@ -1,4 +1,4 @@
-#include "../include/dlist.h"
+#include "dlist.h"
 
 void dllist_init(dllist* list) {  
     if(list){
@@ -20,12 +20,11 @@ node* get(const dllist* list, uint index) {
     else {
         node* current = list->head;
         for (uint i = 0; i < index; i++) {
-            current = (node *)current->next;
+            current = current->next;
         }
         return current;
     }
 }
-
 
 node* begin(const dllist* list) { 
     return list->head;
@@ -67,10 +66,8 @@ void dllist_push_back(dllist* list, publication* data) {
     list->size++;
 }
 
-void dllist_push_back_merge(dllist* list, node* new_node) { 
-    new_node = (node*)malloc(sizeof(node));
-    publication* data;
-    new_node->data = data;
+void dllist_push_back_merge(dllist* list, node* new_node) {
+    if (!new_node) return;
     new_node->next = NULL;
     new_node->prev = list->tail;
     
@@ -106,11 +103,8 @@ node* prev(const dllist* list, uint index) {
             return temp->prev;
         }
     } 
-    else {
-        return NULL;
-    }
+    return NULL;
 }
-
 
 void pop_front(dllist* list) { 
     if (!list || !list->head) return;
@@ -131,6 +125,7 @@ void pop_front(dllist* list) {
 
 void pop_back(dllist* list) { 
 
+    if (!list || !list->tail) return; 
     node* temp = list->tail;
     list->tail = list->tail->prev;
     
@@ -147,6 +142,7 @@ void pop_back(dllist* list) {
 
 void dllist_clear(dllist* list) {
 
+    if (!list) return;
     node* current = list->head;
     while (current) {
         node* next = current->next;
@@ -162,6 +158,9 @@ void dllist_clear(dllist* list) {
 
 void insert(dllist* list, uint index, publication* data) { 
 
+    if (!list || index > list->size) {  
+        return;
+    }
     if (index > list->size) {
         return;
     }
@@ -193,6 +192,9 @@ void insert(dllist* list, uint index, publication* data) {
 }
 
 void swap(dllist* list, uint i, uint j) { 
+    if (!list || i >= list->size || j >= list->size || i == j) { 
+        return;
+    }
     if (i >= list->size || j >= list->size || i == j) {
         return;
     }
@@ -213,6 +215,7 @@ void swap(dllist* list, uint i, uint j) {
 }
 
 void dllist_from_array(dllist* list, publication* array, uint size) { 
+    if (!list) return;
     dllist_clear(list);
     for (uint i = 0; i < size; i++) {
         publication* copy = malloc(sizeof(publication));
@@ -222,16 +225,26 @@ void dllist_from_array(dllist* list, publication* array, uint size) {
 }
 
 publication* dllist_to_array(dllist* list) {
+    if (!list || list->size == 0) return NULL;
+    
     publication* array = (publication*)malloc(list->size * sizeof(publication));
+    if (!array) return NULL;
+    
     node* current = list->head;
-    for (uint i = 0; i < list->size; i++) {
-        array[i] = *(current->data);  
+    for (uint i = 0; i < list->size && current != NULL; i++) {
+        if (current->data) {
+            array[i] = *(current->data);  
+        }
         current = current->next;
     }
-    return array;
+    return array; 
 }
 
 void dllist_remove(dllist* list, uint index) {
+
+    if (!list || index >= list->size) {
+        return;
+    }
     if (index >= list->size) {
         return;
     }
@@ -259,9 +272,57 @@ void dllist_remove(dllist* list, uint index) {
     list->size--;
 }
 
+const char* publication_get_i(dllist* list, uint index, uint indicator) {
+    static char buffer[20]; 
+    if (list == NULL || index >= list->size) {
+        return "";
+    }
+    node* current = get(list, index);
 
-/*void write_log(const char * message) { логирование
+    if (current != NULL && current->data != NULL) {
+        if(indicator == 1){
+            return current->data->title;
+        }
+        if(indicator == 2){
+            return current->data->author_lastname;
+        }
+        if(indicator == 3){
+            return current->data->author_initials;
+        }
+        if(indicator == 4){
+            return current->data->journal;
+        if(indicator == 5){
+            snprintf(buffer, sizeof(buffer), "%d", current->data->year);
+            return buffer;
+        }
+        if(indicator == 6){
+            snprintf(buffer, sizeof(buffer), "%d", current->data->volume); 
+            return buffer;
+        }
+        if(indicator == 7){
+            return current->data->is_rinc ? "YES" : "NO"; 
+        }
+        if(indicator == 8){
+            snprintf(buffer, sizeof(buffer), "%d", current->data->pages); 
+            return buffer;
+        }
+        if(indicator == 9){
+            snprintf(buffer, sizeof(buffer), "%d", current->data->citations); 
+            return buffer;
+        }
+        }
+    }
+    return "";
+}
+
+void write_log(const char * message) { 
     FILE* log_file = fopen("log_file.txt", "a");
-    fprintf(log_file, "ERROR: %s\n", message);
+    fprintf(log_file, "Ошибка %s\n", message);
     fclose(log_file);
-}*/
+}
+/*
+if (!file) {
+    write_log(file_name);
+    return;
+}
+*/

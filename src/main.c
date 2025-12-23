@@ -3,13 +3,13 @@
 #include <string.h>
 #include <time.h>
 #include <locale.h> 
-#include "../include/argument_parser.h"
-#include "../include/publication.h"
-#include "../include/dlist.h"
-#include "../include/comb_sort.h"
-#include "../include/io_operators.h"
-#include "../include/merge_sort.h"
-#include "../include/comparator.h"
+#include "argument_parser.h"
+#include "publication.h"
+#include "dlist.h"
+#include "comb_sort.h"
+#include "io_operators.h"
+#include "merge_sort.h"
+#include "comparator.h"
 
 int main(int argc, char* argv[]) {
 
@@ -55,7 +55,7 @@ int main(int argc, char* argv[]) {
 
         case MODE_SORT_MERGE: {
             if (!options.input_file) {
-                fprintf(stderr, "Error: Input file required for merge sort mode\n");
+                write_log("Ошибка");
                 dllist_clear(&list);
                 return 1;
             }
@@ -77,10 +77,10 @@ int main(int argc, char* argv[]) {
 
             if (!options.input_file) {
                 char filename[256];
-                printf("Enter input filename: ");
+                printf("Введите имя входного файла: ");
                 if (fgets(filename, sizeof(filename), stdin)) {
                     filename[strcspn(filename, "\n")] = 0; 
-                    options.input_file = strdup(filename);
+                    options.input_file = strdup(filename);//
                 }
             }
         
@@ -90,6 +90,7 @@ int main(int argc, char* argv[]) {
             
             if (options.input_file) {
                 free(options.input_file);
+                options.input_file = NULL;
             }
             break;
         }

@@ -1,10 +1,5 @@
 
-*argument_parser.o
-*comb_sort.o
-*dlist.o
-*io_operators.o
-*main.o
-*publication.o
+*.o
 
 
 *publication_sort.exe

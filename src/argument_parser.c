@@ -1,4 +1,4 @@
-#include "../include/argument_parser.h"
+#include "argument_parser.h"
 
 programoptions parse_arguments(uint argc, char* argv[]) {
     programoptions options;
@@ -12,7 +12,11 @@ programoptions parse_arguments(uint argc, char* argv[]) {
         if (strcmp(argv[i], "--generate") == 0 || strcmp(argv[i], "-g") == 0) {
             options.mode = MODE_GENERATE;
             if (i + 1 < argc) {
-                options.generate_count = atoi(argv[++i]);
+                char* endptr;
+                options.generate_count = (uint)strtoul(argv[++i], &endptr, 10);
+                if (*endptr != '\0' || errno != 0) {
+                    options.generate_count = 0;
+                }
             }
         } else if (strcmp(argv[i], "--sort") == 0 || strcmp(argv[i], "-s") == 0) {
             options.mode = MODE_SORT;
@@ -47,18 +51,18 @@ programoptions parse_arguments(uint argc, char* argv[]) {
 }
 
 void print_help() {
-    printf("Usage: publication_sort [OPTIONS]\n");
-    printf("Modes:\n");
-    printf("  --generate N, -g N    Generate N random publications\n");
-    printf("  --sort, -s            Sort publications\n");
-    printf("  --sort_merge, -s_m           Merge_sort publications\n");
-    printf("  --print, -P           Print publications as table\n");
-    printf("\nInput/Output:\n");
-    printf("  --in=FILE, -i FILE    Input file (CSV for sort, filename for print)\n");
-    printf("  --out=FILE, -o FILE   Output file\n");
+    printf("Использование: publication_sort [ПАРАМЕТРЫ]\n");
+    printf("Режимы:\n");
+    printf("  --generate N, -g N    генерирует N рандомных публикаций\n");
+    printf("  --sort, -s            сортировка публикаций (расческой)\n");
+    printf("  --sort_merge, -s_m    сортировка публикаций (слиянием)\n");
+    printf("  --print, -P           вывод публикаций в виде таблицы\n");
+    printf("\nввод/вывод:\n");
+    printf("  --in=FILE, -i FILE    входной файл (CSV для сортировки, имя файла для печати)\n");
+    printf("  --out=FILE, -o FILE   выходной файл\n");
     printf("\nSort options:\n");
-    printf("  --type=asc, -t A      Sort ascending (default)\n"); 
-    printf("  --type=desc, -t D     Sort descending\n");
+    printf("  --type=asc, -t A      сортировка по фозрастанию (по умолчанию)\n"); 
+    printf("  --type=desc, -t D     сортировка по убыванию\n");
     printf("\nOther:\n");
-    printf("  --help, -h            Show this help message\n");
+    printf("  --help, -h            показать сообщение для помощи\n");
 }

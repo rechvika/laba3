@@ -1,8 +1,5 @@
 #pragma once
 
-#define PUBLICATION_H
-
-
 #define MAX_STRING_LENGTH 100
 #define MAX_INITIALS_LENGTH 10
 

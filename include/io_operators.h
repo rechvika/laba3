@@ -1,12 +1,12 @@
 #pragma once
 
-#define IO_OPERATIONS_H
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#include "../include/dlist.h"
+#include "dlist.h"
+
+#define LEN_LINE 330
 
 typedef enum { 
     MODE_GENERATE,

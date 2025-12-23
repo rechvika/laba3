@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../include/merge_sort.h"
+#include "merge_sort.h"
 
 void merge(dllist* list, uint left, uint mid, uint right, comparator cmp) {
     uint i, j;
@@ -11,7 +11,7 @@ void merge(dllist* list, uint left, uint mid, uint right, comparator cmp) {
     dllist* right_dllist = (dllist*)malloc(len_2 * sizeof(int));
     
     if (left_dllist == NULL || right_dllist == NULL) {
-        printf("error\n");
+      //  write_log(dllist* left_dllist);
         free(left_dllist);
         free(right_dllist);
         return;
@@ -21,7 +21,7 @@ void merge(dllist* list, uint left, uint mid, uint right, comparator cmp) {
         dllist_push_back_merge(left_dllist, get(list, i));
     }
     for (j = 0; j < len_2; j++){
-        dllist_push_back_merge(right_dllist, get(list, i));
+        dllist_push_back_merge(right_dllist, get(list, j));
     }
     
     i = 0; 

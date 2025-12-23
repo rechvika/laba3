@@ -1,13 +1,12 @@
 #pragma once
 
-#define ARGUMENT_PARSER_H
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#include "../include/io_operators.h"
-#include "../include/publication.h"
+#include "io_operators.h"
+#include "publication.h"
+#include <errno.h>
 
 typedef struct { 
     programmode mode;
