@@ -6,7 +6,7 @@ void write_csv(const char* filename, dllist* list) {
     if (filename) {
         fp = fopen(filename, "w");
         if (!fp) {
-            write_log(filename);
+            LERR("Ошибка. Файл не открылся");
             return;
         }
     } else {
@@ -38,7 +38,7 @@ void read_csv(const char* filename, dllist* list) {
     if (filename) {
         fp = fopen(filename, "r");
         if (!fp) {
-            write_log(filename);
+            LERR("Ошибка. Файл не открылся");
             return;
         }
     } else {
@@ -68,7 +68,7 @@ void read_csv(const char* filename, dllist* list) {
             continue;
         } 
         if (token[0] == '"') {  
-            strncpy(token, token + 1, strlen(token));  
+            strncpy(token, token + 1, MAX_STRING_LENGTH - 1);  
             token[strlen(token) - 1] = 0;
         }
         strncpy(pub->title, token, MAX_STRING_LENGTH - 1); 
@@ -76,55 +76,55 @@ void read_csv(const char* filename, dllist* list) {
         
         token = strtok(NULL, ","); 
         if (token[0] == '"') {
-            strncpy(token, token + 1, strlen(token));
+            strncpy(token, token + 1, MAX_STRING_LENGTH - 1);
             token[strlen(token) - 1] = 0;
         }
         strncpy(pub->author_lastname, token, MAX_STRING_LENGTH - 1);
         
         token = strtok(NULL, ",");
         if (token[0] == '"') {
-            strncpy(token, token + 1, strlen(token));
+            strncpy(token, token + 1, MAX_STRING_LENGTH - 1);
             token[strlen(token) - 1] = 0;
         }
         strncpy(pub->author_initials, token, 9);
         
         token = strtok(NULL, ",");
         if (token[0] == '"') {
-            strncpy(token, token + 1, strlen(token));
+            strncpy(token, token + 1, MAX_STRING_LENGTH - 1);
             token[strlen(token) - 1] = 0;
         }
         strncpy(pub->journal, token, MAX_STRING_LENGTH - 1);
         
         token = strtok(NULL, ",");
         pub->year = strtoul(token, NULL, 10);
-  //      if(pub->year == ULONG_MAX || pub->year == NULL){
-    //        write_log(filename);
-      //      return;
-        //}
+        if(errno == ERANGE){
+            LERR("Произошло переполнение! Значение слишком велико");
+            return;
+        }
         
         token = strtok(NULL, ",");
         pub->volume = strtoul(token, NULL, 10);
-      //  if(pub->volume == ULONG_MAX || pub->year == NULL){
-        //    write_log(filename);
-      //      return;
-    //    }
+        if(errno == ERANGE){
+            LERR("Произошло переполнение! Значение слишком велико");
+            return;
+        }
 
         token = strtok(NULL, ",");
         pub->is_rinc = (strcmp(token, "true") == 0 || strcmp(token, "1") == 0);
         
         token = strtok(NULL, ",");
         pub->pages = strtoul(token, NULL, 10);
-  //      if(pub->pages == ULONG_MAX || pub->year == NULL){
-       //     write_log(filename);
-     //       return;
-   //     }
+        if(errno == ERANGE){
+            LERR("Произошло переполнение! Значение слишком велико");
+            return;
+        }
         
         token = strtok(NULL, ",");
         pub->citations = strtoul(token, NULL, 10);
- //       if(pub->citations == ULONG_MAX || pub->year == NULL){
-    //        write_log(filename);
-      //      return;
-       // }
+        if(errno == ERANGE){
+            LERR("Произошло переполнение! Значение слишком велико"); 
+            return;
+        }
         dllist_push_back(list, pub);
     }
     if (filename) {
@@ -137,12 +137,12 @@ void print_table(const char* filename, dllist* list) {
     
     if (filename) {
         fp = fopen(filename, "w");
-  //      if (!fp) {
-    //        write_log(filename);
-      //      return;
-        //}
-//    } else {
-  //      fp = stdout;
+        if (!fp) {
+            LERR("Ошибка. Файл не открылся");
+            return;
+        }
+    } else {
+        fp = stdout;
 }
     
     fprintf(fp, "│ %-30s │ %-15s │ %-10s │ %-25s │ Year │ Vol │ RINC │ Pages │ Cit │\n",

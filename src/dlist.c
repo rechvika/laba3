@@ -26,6 +26,10 @@ node* get(const dllist* list, uint index) {
     }
 }
 
+publication* get_data(node* current){
+    return current->data;
+}
+
 node* begin(const dllist* list) { 
     return list->head;
 }
@@ -66,7 +70,7 @@ void dllist_push_back(dllist* list, publication* data) {
     list->size++;
 }
 
-void dllist_push_back_merge(dllist* list, node* new_node) {
+/*void dllist_push_back_merge(dllist* list, node* new_node) {
     if (!new_node) return;
     new_node->next = NULL;
     new_node->prev = list->tail;
@@ -80,6 +84,7 @@ void dllist_push_back_merge(dllist* list, node* new_node) {
     list->tail = new_node;
     list->size++;
 }
+    */
 node* next(const dllist* list, uint index) { 
     if (list && list->head) {
         node* temp = list->head;
@@ -315,14 +320,3 @@ const char* publication_get_i(dllist* list, uint index, uint indicator) {
     return "";
 }
 
-void write_log(const char * message) { 
-    FILE* log_file = fopen("log_file.txt", "a");
-    fprintf(log_file, "Ошибка %s\n", message);
-    fclose(log_file);
-}
-/*
-if (!file) {
-    write_log(file_name);
-    return;
-}
-*/

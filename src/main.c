@@ -55,7 +55,7 @@ int main(int argc, char* argv[]) {
 
         case MODE_SORT_MERGE: {
             if (!options.input_file) {
-                write_log("Ошибка");
+                LERR("Ошибка чтения файла");
                 dllist_clear(&list);
                 return 1;
             }
@@ -76,11 +76,11 @@ int main(int argc, char* argv[]) {
         case MODE_PRINT: {
 
             if (!options.input_file) {
-                char filename[256];
+                char filename[LEN_LINE];
                 printf("Введите имя входного файла: ");
                 if (fgets(filename, sizeof(filename), stdin)) {
-                    filename[strcspn(filename, "\n")] = 0; 
-                    options.input_file = strdup(filename);//
+                    filename[strcspn(filename, "\n")] = 0;
+                    options.input_file = strdup(filename);
                 }
             }
         

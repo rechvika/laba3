@@ -14,7 +14,9 @@ programoptions parse_arguments(uint argc, char* argv[]) {
             if (i + 1 < argc) {
                 char* endptr;
                 options.generate_count = (uint)strtoul(argv[++i], &endptr, 10);
-                if (*endptr != '\0' || errno != 0) {
+                if(errno == ERANGE){
+                    LERR("Произошло переполнение! Значение слишком велико");
+                return;
                     options.generate_count = 0;
                 }
             }

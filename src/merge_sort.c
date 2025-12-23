@@ -11,17 +11,17 @@ void merge(dllist* list, uint left, uint mid, uint right, comparator cmp) {
     dllist* right_dllist = (dllist*)malloc(len_2 * sizeof(int));
     
     if (left_dllist == NULL || right_dllist == NULL) {
-      //  write_log(dllist* left_dllist);
+        LERR("Ошибка, какой-то из списков пуст");
         free(left_dllist);
         free(right_dllist);
         return;
     }
     
     for (i = 0; i < len_1; i++){
-        dllist_push_back_merge(left_dllist, get(list, i));
+        dllist_push_back(left_dllist, get_data(get(list, i)));
     }
     for (j = 0; j < len_2; j++){
-        dllist_push_back_merge(right_dllist, get(list, j));
+        dllist_push_back(right_dllist, get_data(get(list, j)));
     }
     
     i = 0; 
@@ -30,21 +30,21 @@ void merge(dllist* list, uint left, uint mid, uint right, comparator cmp) {
     
     while (i < len_1 && j < len_2) {
         if (cmp(get(left_dllist, i), get(right_dllist, j)) <= 0) {
-            dllist_push_back_merge(list, get(left_dllist, i));
+            dllist_push_back(list, get_data(get(left_dllist, i)));
             i++;
         } else {
-            dllist_push_back_merge(list, get(right_dllist, j));
+            dllist_push_back(list, get_data(get(right_dllist, j)));
             j++;
         }
     }
     
     while (i < len_1) {
-       dllist_push_back_merge(list, get(left_dllist, i));
+       dllist_push_back(list, get_data(get(left_dllist, i)));
         i++;
     }
     
     while (j < len_2) {
-        dllist_push_back_merge(list, get(right_dllist, j));
+        dllist_push_back(list, get_data(get(right_dllist, j)));
         j++;
     }
     

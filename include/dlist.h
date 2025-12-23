@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "publication.h"
+#include "logging.h"
 
 typedef unsigned int uint;
 
@@ -25,7 +26,6 @@ node* begin(const dllist* list);
 node* end(const dllist* list);
 void dllist_push_front(dllist* list, publication* data); 
 void dllist_push_back(dllist* list, publication* data);
-void dllist_push_back_merge(dllist* list, node* new_node);
 node* next(const dllist* list, unsigned int index);
 node* prev(const dllist* list, unsigned int index);
 void pop_front(dllist* list);

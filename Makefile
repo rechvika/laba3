@@ -21,7 +21,8 @@ HEADER_FILES = $(INCLUDE_DIR)/dlist.h \
                $(INCLUDE_DIR)/comb_sort.h \
                $(INCLUDE_DIR)/argument_parser.h \
                $(INCLUDE_DIR)/merge_sort.h \
-               $(INCLUDE_DIR)/comparator.h
+               $(INCLUDE_DIR)/comparator.h\
+               $(INCLUDE_DIR)/logging.h
 
 OBJ_FILES = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC_FILES))
 
